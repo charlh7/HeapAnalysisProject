@@ -34,33 +34,77 @@ accessGraph::accessGraph(llvm::Instruction* p){
 }
 
 
-bool accessGraph::operator==(accessGraph* g2){
-    errs() << "equal operator\n";
+bool accessGraph::operator==(accessGraph g2){
+//    errs() << "equal operator\n";
 
-    if(head->inst == g2->getHead()->inst){
+    if(head->inst == g2.getHead()->inst){
 
-        if(nodes.size() == g2->getNodeList().size()){
+        if(nodes.size() == g2.getNodeList().size()){
             for(unsigned i = 0; i < nodes.size(); i++){
-                if(nodes[i] != g2->getNodeList()[i]){
+                if(*nodes[i] != *g2.getNodeList()[i]){
+//                    errs() << "Nodes not equal in AG ==\n";
                     return false;
                 }
 
             }
 
         }
+        else{
+            return false;
+        }
 
-        if(edges.size() == g2->getEdgeList().size()){
+        if(edges.size() == g2.getEdgeList().size()){
             for(unsigned i = 0; i < edges.size(); i++){
-                if(edges[i] != g2->getEdgeList()[i]){
+                if(*edges[i] != *g2.getEdgeList()[i]){
+//                    errs() << "Edges not equal in AG == \n";
+//
+//                    errs() << "edge1 | head:" << *edges[i]->head->inst <<  " tail:" << *edges[i]->tail->inst << "\n";
+//
+//                    errs() << "edge1 tags | head:" << edges[i]->head->tag <<  " tail:" << edges[i]->tail->tag << "\n";
+//
+//                    errs() << "edge2 | head:" << *g2.getEdgeList()[i]->head->inst <<  " tail:" << *g2.getEdgeList()[i]->tail->inst << "\n";
+//
+//                    errs() << "edge2 tags | head:" << g2.getEdgeList()[i]->head->tag <<  " tail:" << g2.getEdgeList()[i]->tail->tag << "\n";
                     return false;
                 }
 
             }
 
+        }
+        else{
+            return false;
         }
 
 
     }
+
+
+//    if(head->inst == g2->getHead()->inst){
+//
+//        if(nodes.size() == g2->getNodeList().size()){
+//            for(unsigned i = 0; i < nodes.size(); i++){
+//                if(nodes[i] != g2->getNodeList()[i]){
+//                    errs() << "Nodes not equal in AG ==\n";
+//                    return false;
+//                }
+//
+//            }
+//
+//        }
+//
+//        if(edges.size() == g2->getEdgeList().size()){
+//            for(unsigned i = 0; i < edges.size(); i++){
+//                if(edges[i] != g2->getEdgeList()[i]){
+//                    errs() << "Edges not equal in AG == \n";
+//                    return false;
+//                }
+//
+//            }
+//
+//        }
+//
+//
+//    }
 
 
     return true;
@@ -72,7 +116,10 @@ accessGraph* accessGraph::copyGraph(){
 
     if(head->inst != NULL){
         accessGraph* copyAG = new accessGraph(head->inst);
+//        errs() << "head tag: " << head->tag << "\n";
         copyAG->setHeadTag(head->tag);
+//        errs() << "copy head tag: " << copyAG->getHead()->tag << "\n";
+
 
         for(unsigned i = 0; i < nodes.size(); i++){
 
@@ -145,7 +192,9 @@ void accessGraph::setHead(gNode* newHead){
 	//head = newHead;
 	if(nodes.empty()){
 		//errs() << "B4 addNode\n";
+
 		addNode(newHead->inst);
+		head = newHead;
 		//errs() << "After addNode\n";
 	}
 	else{
@@ -208,10 +257,22 @@ accessGraph* accessGraph::getUnion(accessGraph* AG){
 		return this;
 	}
 	else{
-        //errs() << "else stmt\n";
+//        errs() << ">>>else stmt\n";
 		if(head->inst == AG->getHead()->inst){
 			//errs() << "Same Head\n ";
+			std::string unionTag;
+			if(head->tag != "none"){
+                unionTag = head->tag;
+			}
+			else if(AG->getHead()->tag != "none"){
+                unionTag = AG->getHead()->tag;
+			}
 			newAG->setHead(head);
+			newAG->setHeadTag(unionTag);
+			newAG->getNode(head->inst)->tag = unionTag;
+
+//			errs() << "new tag: " << newAG->getHead()->tag << "\n";
+
 
 			//Copy Edges
 			//errs() << "Union head: " << *newAG->getHead()->inst << "\n";

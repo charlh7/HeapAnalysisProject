@@ -21,7 +21,11 @@ class accessGraph{
 		accessGraph();
 		accessGraph(llvm::Instruction* p);
 
-		bool operator==(accessGraph* g2);
+		bool operator==(accessGraph g2);
+		bool operator!=(accessGraph g2){
+            return !(*this == g2);
+
+        }
 
 		//Operations that must have the same entry node
 		bool isEmpty();

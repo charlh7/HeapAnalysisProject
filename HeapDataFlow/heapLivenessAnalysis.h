@@ -31,6 +31,7 @@ struct instStatement{
 void outputLiveInfo(std::vector<InstAGInfo*> &InstAGInfoList, int infoTag, int index);
 void outputType(InstAGInfo* instInfo);
 std::vector<accessGraph*> createAGCopies(std::vector<accessGraph*> AGList);
+bool findChanges(std::vector<accessGraph*> AGSet1, std::vector<accessGraph*> AGSet2);
 
 void addSuccessors(InstAGInfo* &currentInst, std::vector<InstAGInfo*> InstAGList, std::vector<Instruction*> instList);
 bool checkSuccessor(InstAGInfo* currInst, InstAGInfo* succInst, std::vector<Instruction*> instList);
@@ -47,7 +48,8 @@ void updateAGs(std::vector<InstAGInfo*> &InstAGInfoList, std::vector<Instruction
 
 void removeStatementInsts(std::vector<Instruction*> &instList, std::vector<Instruction*> statementInsts);
 void outputList(std::vector<Instruction*> instList);
-void outputAGList(std::vector<InstAGInfo*> instAGList);
+void outputInstAGList(std::vector<InstAGInfo*> instAGList);
+void outputAGList(std::vector<accessGraph*> AGList);
 
 BitVector getInstTypes(std::vector<Instruction*> rootList, InstAGInfo* &instInfo,  Instruction* inst);
 void findUnusedAGs(std::vector<Instruction*> rootList, std::vector<accessGraph*> usedAGs, std::vector<accessGraph*> &unusedAGs);

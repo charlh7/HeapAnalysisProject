@@ -100,7 +100,10 @@ void doAGLivenessAnalysis2(Function &F, std::vector<accessGraph*> AGList,  std::
 
     int iterationCount = 0;
     bool changed = true;
-	while(iterationCount < 2){
+    while(changed){
+//	while(iterationCount < 2){
+        changed = false;
+        errs() << "\n\n>>>>>>>>>>>>> Iteration: " << iterationCount << "\n";
         for(unsigned i = 0; i < InstAGInfoList.size(); i++){
     //    errs() << "****************************************************************************************\n\n";
                 errs() << "Current Inst: " << *InstAGInfoList[i]->thisInst << "\n";
@@ -110,6 +113,12 @@ void doAGLivenessAnalysis2(Function &F, std::vector<accessGraph*> AGList,  std::
     //
               std::vector<accessGraph*> currentIn = createAGCopies(InstAGInfoList[i]->ELIn);
               std::vector<accessGraph*> currentOut = createAGCopies(InstAGInfoList[i]->ELOut);
+
+//              errs() << ">>>>>>>currentELIn:\n";
+//              outputAGList(InstAGInfoList[i]->ELIn);
+//
+//              errs() << ">>>>>>>copied ELIn:\n";
+//              outputAGList(currentIn);
 
 //                if(i == 2){
 //                    for(unsigned j = 0; j < InstAGInfoList[i]->usedAGs.size() ; j++){
@@ -141,10 +150,26 @@ void doAGLivenessAnalysis2(Function &F, std::vector<accessGraph*> AGList,  std::
     //
     //			}
 
-                errs() << "Getting ELIn\n";
+//                errs() << "Getting ELIn\n";
                 InstAGInfoList[i]->getELIn();
 
-                errs() << "Done Getting ELIn\n";
+//                errs() << "Done Getting ELIn\n";
+
+
+
+//                if(i == 0){
+                    if(findChanges(InstAGInfoList[i]->ELOut, currentOut)){
+                        changed = true;
+    //                    errs() << "Changed detected in ELOut\n";
+                    }
+                    if(findChanges(InstAGInfoList[i]->ELIn, currentIn)){
+                        changed = true;
+    //                    errs() << "Changed detected in ELIn\n";
+                    }
+
+//                }
+
+
 
 
     //			if(i == 2){
@@ -160,16 +185,37 @@ void doAGLivenessAnalysis2(Function &F, std::vector<accessGraph*> AGList,  std::
 
                 errs() << "%%%%%%%%%%%%%%%%%%%%%%%%\n";
 
-    //			if(i == 2){ break;}
+//    			if(i == 1){ break;}
 
         }
+//        if(iterationCount == 1){
+//            outputLiveInfo(InstAGInfoList, 0, 0);
+//        }
+//
+//        if(iterationCount == 2){
+//            outputLiveInfo(InstAGInfoList, 0, 1);
+//        }
+
+
+//        if(iterationCount == 4){
+//            errs() << ">>>>>>>>>>>>>Reached iteration count 4\n";
+//            break;
+//        }
+//
+//        if(changed == false){
+//            errs() << "Finished Liveness Iteration!\n";
+//        }
+
         iterationCount++;
+
 	}
+//	outputLiveInfo(InstAGInfoList, 0, 0);
+//	outputLiveInfo(InstAGInfoList, 0, 1);
 
 
 
 
-	outputLiveInfo(InstAGInfoList, 0, 0);
+//	outputLiveInfo(InstAGInfoList, 0, -1);
 
 }
 
@@ -177,25 +223,27 @@ void doAGLivenessAnalysis2(Function &F, std::vector<accessGraph*> AGList,  std::
 void outputLiveInfo(std::vector<InstAGInfo*> &InstAGInfoList, int infoTag, int index){
 
 
-    if(index != 0){
+    if(index != -1){
         errs() << "Current Inst: " << *InstAGInfoList[index]->thisInst << "\n";
         errs() << ">> inst# : " << index << "\n";
 //        errs() << ">> "
         outputType(InstAGInfoList[index]);
-
-        errs() << ">> Successor inst: " << *InstAGInfoList[index]->successors[0]->thisInst << "\n";
+//        if(InstAGInfoList[index]->successors.size() > 0){
+//            errs() << ">> Successor inst: " << *InstAGInfoList[index]->successors[0]->thisInst << "\n";
+//        }
+//        errs() << ">> Successor inst: " << *InstAGInfoList[index]->successors[0]->thisInst << "\n";
 
         //------------------------------------------------------
 
-        errs() << ">>> ELOut: \n";
-        errs() << ">>> ELOut size: " << InstAGInfoList[index]->ELOut.size() << "\n";
-        errs() << ">>> ELOut succ size: " << InstAGInfoList[index]->successors.size() << "\n";
-
-        for(unsigned j = 0; j < InstAGInfoList[index]->ELOut.size(); j++){
-        //errs() << "yo\n";
-            InstAGInfoList[index]->ELOut[j]->outputGraphByInst();
-
-        }
+//        errs() << ">>> ELOut: \n";
+//        errs() << ">>> ELOut size: " << InstAGInfoList[index]->ELOut.size() << "\n";
+//        errs() << ">>> ELOut succ size: " << InstAGInfoList[index]->successors.size() << "\n";
+//
+//        for(unsigned j = 0; j < InstAGInfoList[index]->ELOut.size(); j++){
+//        //errs() << "yo\n";
+//            InstAGInfoList[index]->ELOut[j]->outputGraphByInst();
+//
+//        }
 //
 //
 //        //------------------------------------------------------
@@ -203,21 +251,30 @@ void outputLiveInfo(std::vector<InstAGInfo*> &InstAGInfoList, int infoTag, int i
         errs() << ">>> ELIn: \n";
         errs() << ">>> ELIn size: " << InstAGInfoList[index]->ELIn.size() << "\n";
 
+//        for(unsigned j = 0; j < InstAGInfoList[index]->ELIn.size(); j++){
+//        //errs() << "yo\n";
+//            InstAGInfoList[index]->ELIn[j]->outputGraphByInst();
+//
+//        }
+
         for(unsigned j = 0; j < InstAGInfoList[index]->ELIn.size(); j++){
         //errs() << "yo\n";
-            InstAGInfoList[index]->ELIn[j]->outputGraphByInst();
+            InstAGInfoList[index]->ELIn[j]->outputGraph();
 
         }
+
+
 
         //------------------------------------------------------
 
 
-//        errs() << ">>> EGen: \n";
-//        if(InstAGInfoList[index]->ELGen.size() > 0){
-//            for(unsigned j = 0; j < InstAGInfoList[index]->ELGen.size(); j++){
+        errs() << ">>> EGen: \n";
+        if(InstAGInfoList[index]->ELGen.size() > 0){
+            for(unsigned j = 0; j < InstAGInfoList[index]->ELGen.size(); j++){
 //                InstAGInfoList[index]->ELGen[j]->outputGraphByInst();
-//            }
-//        }
+                InstAGInfoList[index]->ELGen[j]->outputGraph();
+            }
+        }
 
         //------------------------------------------------------
 
@@ -355,9 +412,36 @@ void outputType(InstAGInfo* instInfo){
     }
 }
 
+
+bool findChanges(std::vector<accessGraph*> AGSet1, std::vector<accessGraph*> AGSet2){
+    if(AGSet1.size() != AGSet2.size()){
+        errs() << "Two AG sets are not the same size\n";
+        return true;
+    }
+    else{
+
+        for(unsigned i = 0; i < AGSet1.size(); i++){
+            if(*AGSet1[i] != *AGSet2[i]){
+                errs() << "Change detected in the two AG Sets\n";
+                return true;
+            }
+        }
+
+    }
+    errs() << "Two AG sets are identical\n";
+
+    return false;
+
+}
+
 std::vector<accessGraph*> createAGCopies(std::vector<accessGraph*> AGList){
     std::vector<accessGraph*> AGCopyList;
-
+//
+//    errs() << "AGList size: " << AGList.size() << "\n";
+//
+//    if(AGList.size() > 0){
+//        AGList[0]->outputGraph();
+//    }
     for(unsigned i = 0; i < AGList.size(); i++){
         accessGraph* copyAG = AGList[i]->copyGraph();
         AGCopyList.push_back(copyAG);
@@ -620,10 +704,20 @@ void outputList(std::vector<Instruction*> instList){
 
 }
 
-void outputAGList(std::vector<InstAGInfo*> instAGList){
+void outputInstAGList(std::vector<InstAGInfo*> instAGList){
     errs() << "List Size: " << instAGList.size() << "\n";
     for( unsigned i = 0; i < instAGList.size(); i++){
         errs() << *instAGList[i]->thisInst << "\n";
+    }
+
+}
+
+void outputAGList(std::vector<accessGraph*> AGList){
+    errs() << "List Size: " << AGList.size() << "\n";
+    for( unsigned i = 0; i < AGList.size(); i++){
+//        errs() << *instAGList[i]->thisInst << "\n";
+        AGList[i]->outputGraphByInst();
+        AGList[i]->outputGraph();
     }
 
 }

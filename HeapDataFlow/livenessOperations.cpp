@@ -914,58 +914,58 @@ std::vector<accessGraph*> getLTransferAssignment( std::vector<accessGraph*> AGLi
 
 
 	}
-	else{
-
-
-        yAG = instInfo->Gy;
-        xAG = instInfo->Gx;
-
-        if(instInfo->instNumber == 3){
-            errs() << "updating LTransfer\n";
-//            std::cout << ">>> ELOut: \n";
+//	else{
 //
 //
-//            for(unsigned j = 0; j < instInfo->ELOut.size(); j++){
-//                instInfo->ELOut[j]->outputGraphByInst();
+//        yAG = instInfo->Gy;
+//        xAG = instInfo->Gx;
+//
+//        if(instInfo->instNumber == 3){
+//            errs() << "updating LTransfer\n";
+////            std::cout << ">>> ELOut: \n";
+////
+////
+////            for(unsigned j = 0; j < instInfo->ELOut.size(); j++){
+////                instInfo->ELOut[j]->outputGraphByInst();
+////            }
+//////            errs() << "Inst Num 4: " << *inst << "\n";
+////            errs() << ">>>>yAG\n";
+////            yAG->outputGraphByInst();
+////
+////            errs() << ">>>>My\n";
+////            gNode* testMy = yAG->getLastNode();
+////            errs() << "My(Last node in yAG): " << *testMy->inst << "\n";
+//
+//
+////            errs() << ">>>>xAG\n";
+////            xAG->outputGraphByInst();
+////            errs() << ">>>>Mx\n";
+////            gNode* testMx = xAG->getLastNode();
+////            errs() << "Mx(Last node in xAG): " << *testMx->inst << "\n";
+//
+//            if(accessGraph* TestELOutx = instInfo->getELOutFromRoot(xAG->getHead()->inst)){
+////                errs() << "Testing ELOutx From Root: \n";
+////                TestELOutx->outputGraphByInst();
+//
+//                std::vector<accessGraph*>  TestELOutxFactors = TestELOutx->getFactorization(xAG, xAG->getLastNode());
+////                errs() << "Testing ELOutx Factors in LTransfer:\n";
+////                for(unsigned i = 0; i < TestELOutxFactors.size(); i++){
+////                    if(!(TestELOutxFactors[i]->isEmpty())){
+////                        TestELOutxFactors[i]->outputGraphByInst();
+////                    }
+////                }
+//
+//                std::vector<gNode*> TestyExtensionNodeList;
+//                TestyExtensionNodeList.push_back(yAG->getLastNode());
+//
+//                accessGraph* TestextendedAG = yAG->getExtension(TestyExtensionNodeList, TestELOutxFactors);
+//
+////                errs() << "Testing yAG After Extension: \n";
+////                TestextendedAG->outputGraphByInst();
 //            }
-////            errs() << "Inst Num 4: " << *inst << "\n";
-//            errs() << ">>>>yAG\n";
-//            yAG->outputGraphByInst();
 //
-//            errs() << ">>>>My\n";
-//            gNode* testMy = yAG->getLastNode();
-//            errs() << "My(Last node in yAG): " << *testMy->inst << "\n";
-
-
-//            errs() << ">>>>xAG\n";
-//            xAG->outputGraphByInst();
-//            errs() << ">>>>Mx\n";
-//            gNode* testMx = xAG->getLastNode();
-//            errs() << "Mx(Last node in xAG): " << *testMx->inst << "\n";
-
-            if(accessGraph* TestELOutx = instInfo->getELOutFromRoot(xAG->getHead()->inst)){
-//                errs() << "Testing ELOutx From Root: \n";
-//                TestELOutx->outputGraphByInst();
-
-                std::vector<accessGraph*>  TestELOutxFactors = TestELOutx->getFactorization(xAG, xAG->getLastNode());
-//                errs() << "Testing ELOutx Factors in LTransfer:\n";
-//                for(unsigned i = 0; i < TestELOutxFactors.size(); i++){
-//                    if(!(TestELOutxFactors[i]->isEmpty())){
-//                        TestELOutxFactors[i]->outputGraphByInst();
-//                    }
-//                }
-
-                std::vector<gNode*> TestyExtensionNodeList;
-                TestyExtensionNodeList.push_back(yAG->getLastNode());
-
-                accessGraph* TestextendedAG = yAG->getExtension(TestyExtensionNodeList, TestELOutxFactors);
-
-//                errs() << "Testing yAG After Extension: \n";
-//                TestextendedAG->outputGraphByInst();
-            }
-
-////            yAG->outputGraph();
-        }
+//////            yAG->outputGraph();
+//        }
 
 //
 //        std::cout << ">>> ELOut: \n";
@@ -989,21 +989,21 @@ std::vector<accessGraph*> getLTransferAssignment( std::vector<accessGraph*> AGLi
 ////        errs() << "Test inst " << xAG->getHead()->inst << "\n";
 //
 ////        errs() << "xAG Nodesize: " << xAG->getNodeList().size() << "\n";
-        if(accessGraph* ELOutx = instInfo->getELOutFromRoot(xAG->getHead()->inst)){
-
-            std::vector<accessGraph*>  ELOutxFactors = ELOutx->getFactorization(xAG, xAG->getLastNode());
-
-            std::vector<gNode*> yExtensionNodeList;
-            yExtensionNodeList.push_back(yAG->getLastNode());
-
-            accessGraph* extendedAG = yAG->getExtension(yExtensionNodeList, ELOutxFactors);
-            LTransferList.push_back(extendedAG);
-        }
-        else{
-            LTransferList.push_back(yAG);
-        }
-
-	}
+//        if(accessGraph* ELOutx = instInfo->getELOutFromRoot(xAG->getHead()->inst)){
+//
+//            std::vector<accessGraph*>  ELOutxFactors = ELOutx->getFactorization(xAG, xAG->getLastNode());
+//
+//            std::vector<gNode*> yExtensionNodeList;
+//            yExtensionNodeList.push_back(yAG->getLastNode());
+//
+//            accessGraph* extendedAG = yAG->getExtension(yExtensionNodeList, ELOutxFactors);
+//            LTransferList.push_back(extendedAG);
+//        }
+//        else{
+//            LTransferList.push_back(yAG);
+//        }
+//
+//	}
 
     /*
     errs() << "Y Head: " << *yAG->getHead()->inst << "\n";
@@ -1023,7 +1023,7 @@ std::vector<accessGraph*> getLTransferAssignment( std::vector<accessGraph*> AGLi
 
 
     //errs() << "\n\n";
-    errs() << "-----------------------done with LTransfer-----------------------\n";
+//    errs() << "-----------------------done with LTransfer-----------------------\n";
 
 	return LTransferList;
 }
@@ -1224,18 +1224,32 @@ std::vector<accessGraph*> InstAGInfo::getELIn(){
             if(accessGraph* ELGenAG = getELGenFromRoot(usedAGs[i]->getHead()->inst)){
 //            errs() << ">> Found ELGen AG\n";
 //
-////            if(instNumber == 0){
+                if(instNumber == 1){
+                    errs() << "Current gUnion Tag B4 ELGen Union: " << gUnion->getHead()->tag << "\n";
+                    gUnion->outputGraph();
 //                errs() << " ELGEN: \n";
 //                ELGenAG->outputGraphByInst();
 //                accessGraph* testgUnion = gUnion->getUnion(ELGenAG);
 ////                errs() << "Test z union:\n";
 ////                testgUnion->outputGraphByInst();
 ////                errs() << "head:  " << *testgUnion->getHead()->inst << "\n";
-////            }
+                }
+
+
                 gUnion = gUnion->getUnion(ELGenAG);
+
+                if(instNumber == 1){
+                   errs() << "Current gUnion Tag After ELGen Union: " << gUnion->getHead()->tag << "\n";
+                   gUnion->outputGraph();
+
+                }
             }
 //            errs() << "current gUnion: \n";
-//            gUnion->outputGraphByInst();
+
+            if(instNumber == 1){
+                gUnion->outputGraph();
+
+            }
 
             if(gUnion->getHead() != NULL){
                 unionedGraphs.push_back(gUnion);
@@ -1260,6 +1274,9 @@ std::vector<accessGraph*> InstAGInfo::getELIn(){
 
         if(accessGraph* ELOutAG = getELOutFromRoot(rootList[i])){
             if(!AGInList(iteratedGraphs, ELOutAG)){
+                if(instNumber == 1){
+                    ELOutAG->outputGraph();
+                }
                 unionedGraphs.push_back(ELOutAG);
             }
 
