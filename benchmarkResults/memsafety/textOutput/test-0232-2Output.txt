@@ -1,0 +1,38 @@
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: reach_error
+Finished Liveness Iteration
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: main
+Finished Liveness Iteration
+Function LiveIn Graph: 
+Access Graph Contents: 
+Node List:
+  %2 = alloca %struct.item*, align 8
+Edges size: 0
+
+============================
+
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: append
+Access Graph Contents: 
+Node List:
+none
+Edges size: 0
+
+============================
+
+Access Graph Contents: 
+Node List:
+none
+Edges size: 0
+
+============================
+
+Finished Liveness Iteration
+Function LiveIn Graph: 
+***********************************************************

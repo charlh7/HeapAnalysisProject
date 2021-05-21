@@ -1,0 +1,27 @@
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: free_g1
+Finished Liveness Iteration
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: free_g2
+Finished Liveness Iteration
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: h
+Finished Liveness Iteration
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: f
+Finished Liveness Iteration
+Function LiveIn Graph: 
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: main
+Finished Liveness Iteration
+Function LiveIn Graph: 
+***********************************************************

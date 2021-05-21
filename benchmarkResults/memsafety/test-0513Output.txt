@@ -1,0 +1,114 @@
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: reach_error
+Finished Liveness Iteration
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: main
+No nodes in graph!
+
+============================
+
+No nodes in graph!
+
+============================
+
+No nodes in graph!
+
+============================
+
+No nodes in graph!
+
+============================
+
+tail different
+No nodes in graph!
+
+============================
+
+tail different
+No nodes in graph!
+
+============================
+
+tail different
+No nodes in graph!
+
+============================
+
+tail different
+No nodes in graph!
+
+============================
+
+tail different
+No nodes in graph!
+
+============================
+
+tail different
+No nodes in graph!
+
+============================
+
+tail different
+No nodes in graph!
+
+============================
+
+tail different
+No nodes in graph!
+
+============================
+
+tail different
+No nodes in graph!
+
+============================
+
+tail different
+No nodes in graph!
+
+============================
+
+tail different
+No nodes in graph!
+
+============================
+
+tail different
+No nodes in graph!
+
+============================
+
+tail different
+No nodes in graph!
+
+============================
+
+tail different
+No nodes in graph!
+
+============================
+
+tail different
+No nodes in graph!
+
+============================
+
+tail different
+No nodes in graph!
+
+============================
+
+tail different
+No nodes in graph!
+
+============================
+
+tail different
+>>>>>>>>>>>>>Reached iteration count 20
+Finished Liveness Iteration
+Function LiveIn Graph: 
+***********************************************************

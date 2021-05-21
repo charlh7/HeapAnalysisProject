@@ -1,0 +1,21 @@
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: reach_error
+Finished Liveness Iteration
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: push
+Finished Liveness Iteration
+Function LiveIn Graph: 
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: pop
+Finished Liveness Iteration
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: main
+Finished Liveness Iteration
+***********************************************************

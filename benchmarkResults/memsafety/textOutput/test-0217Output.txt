@@ -1,0 +1,96 @@
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: reach_error
+Finished Liveness Iteration
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: is_empty
+No nodes in graph!
+
+============================
+
+No nodes in graph!
+
+============================
+
+Finished Liveness Iteration
+Function LiveIn Graph: 
+Access Graph Contents: 
+Node List:
+  %2 = alloca [2 x i8*]*, align 8
+Edges size: 0
+
+============================
+
+Access Graph Contents: 
+Node List:
+  %3 = alloca i32, align 4
+Edges size: 0
+
+============================
+
+Access Graph Contents: 
+Node List:
+  %4 = alloca i32, align 4
+Edges size: 0
+
+============================
+
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: create_item
+No nodes in graph!
+
+============================
+
+No nodes in graph!
+
+============================
+
+Finished Liveness Iteration
+Function LiveIn Graph: 
+Access Graph Contents: 
+Node List:
+  %3 = alloca i32, align 4
+Edges size: 0
+
+============================
+
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: append_one
+Finished Liveness Iteration
+Function LiveIn Graph: 
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: remove_one
+Finished Liveness Iteration
+Function LiveIn Graph: 
+Access Graph Contents: 
+Node List:
+  %3 = alloca [2 x i8*]*, align 8
+Edges size: 0
+
+============================
+
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: rand_end_point
+No nodes in graph!
+
+============================
+
+Finished Liveness Iteration
+Function LiveIn Graph: 
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: main
+Finished Liveness Iteration
+Function LiveIn Graph: 
+***********************************************************

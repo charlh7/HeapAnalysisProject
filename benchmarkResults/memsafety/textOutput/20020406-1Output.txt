@@ -1,0 +1,116 @@
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: reach_error
+Finished Liveness Iteration
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: FFmul
+No nodes in graph!
+
+============================
+
+Finished Liveness Iteration
+Function LiveIn Graph: 
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: DUPFFdeg
+No nodes in graph!
+
+============================
+
+Finished Liveness Iteration
+Function LiveIn Graph: 
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: DUPFFnew
+No nodes in graph!
+
+============================
+
+Access Graph Contents: 
+Node List:
+none
+Edges size: 0
+
+============================
+
+No nodes in graph!
+
+============================
+
+Access Graph Contents: 
+Node List:
+none
+Edges size: 0
+
+============================
+
+Finished Liveness Iteration
+Function LiveIn Graph: 
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: DUPFFfree
+Finished Liveness Iteration
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: DUPFFswap
+Finished Liveness Iteration
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: DUPFFcopy
+No nodes in graph!
+
+============================
+
+Finished Liveness Iteration
+Function LiveIn Graph: 
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: DUPFFshift_add
+Finished Liveness Iteration
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: DUPFFexgcd
+No nodes in graph!
+
+============================
+
+No nodes in graph!
+
+============================
+
+No nodes in graph!
+
+============================
+
+Finished Liveness Iteration
+Function LiveIn Graph: 
+Access Graph Contents: 
+Node List:
+  %8 = alloca %struct.DUPFFstruct*, align 8
+Edges size: 0
+
+============================
+
+Access Graph Contents: 
+Node List:
+  %9 = alloca %struct.DUPFFstruct*, align 8
+Edges size: 0
+
+============================
+
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: main
+Finished Liveness Iteration
+Function LiveIn Graph: 
+***********************************************************

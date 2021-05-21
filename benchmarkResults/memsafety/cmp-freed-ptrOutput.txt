@@ -1,0 +1,20 @@
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: main
+Finished Liveness Iteration
+Function LiveIn Graph: 
+Access Graph Contents: 
+Node List:
+  %4 = alloca i64, align 8
+Edges size: 0
+
+============================
+
+Access Graph Contents: 
+Node List:
+  %5 = alloca i64, align 8
+Edges size: 0
+
+============================
+
+***********************************************************

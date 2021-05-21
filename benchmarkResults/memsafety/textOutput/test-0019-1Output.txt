@@ -1,0 +1,30 @@
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: reach_error
+Finished Liveness Iteration
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: main
+Finished Liveness Iteration
+Function LiveIn Graph: 
+Access Graph Contents: 
+Node List:
+  %2 = alloca %struct.TData, align 8
+Edges size: 0
+
+============================
+
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: alloc_data
+Finished Liveness Iteration
+Function LiveIn Graph: 
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: free_data
+Finished Liveness Iteration
+Function LiveIn Graph: 
+***********************************************************

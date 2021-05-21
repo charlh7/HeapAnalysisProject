@@ -1,0 +1,171 @@
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: reach_error
+Finished Liveness Iteration
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: main
+Finished Liveness Iteration
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: gl_read
+Finished Liveness Iteration
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: gl_insert
+Finished Liveness Iteration
+Function LiveIn Graph: 
+Access Graph Contents: 
+Node List:
+  %2 = alloca i32, align 4
+Edges size: 0
+
+============================
+
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: list_add
+Finished Liveness Iteration
+Function LiveIn Graph: 
+Access Graph Contents: 
+Node List:
+  %3 = alloca %struct.list_head*, align 8
+Edges size: 0
+
+============================
+
+Access Graph Contents: 
+Node List:
+  %4 = alloca %struct.list_head*, align 8
+Edges size: 0
+
+============================
+
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: __list_add
+Finished Liveness Iteration
+Function LiveIn Graph: 
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: gl_sort
+Finished Liveness Iteration
+Function LiveIn Graph: 
+Access Graph Contents: 
+Node List:
+  %1 = alloca %struct.list_head, align 8
+Edges size: 0
+
+============================
+
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: list_empty
+Finished Liveness Iteration
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: list_move
+Finished Liveness Iteration
+Function LiveIn Graph: 
+Access Graph Contents: 
+Node List:
+  %3 = alloca %struct.list_head*, align 8
+  %6 = getelementptr inbounds %struct.list_head, %struct.list_head* %5, i32 0, i32 1
+Edges size: 1
+  %3 = alloca %struct.list_head*, align 8--->   %6 = getelementptr inbounds %struct.list_head, %struct.list_head* %5, i32 0, i32 1
+
+============================
+
+Access Graph Contents: 
+Node List:
+  %4 = alloca %struct.list_head*, align 8
+Edges size: 0
+
+============================
+
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: list_del
+Finished Liveness Iteration
+Function LiveIn Graph: 
+Access Graph Contents: 
+Node List:
+  %2 = alloca %struct.list_head*, align 8
+  %4 = getelementptr inbounds %struct.list_head, %struct.list_head* %3, i32 0, i32 1
+Edges size: 1
+  %2 = alloca %struct.list_head*, align 8--->   %4 = getelementptr inbounds %struct.list_head, %struct.list_head* %3, i32 0, i32 1
+
+============================
+
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: gl_seek_max
+No nodes in graph!
+
+============================
+
+No nodes in graph!
+
+============================
+
+No nodes in graph!
+
+============================
+
+No nodes in graph!
+
+============================
+
+Finished Liveness Iteration
+Function LiveIn Graph: 
+Access Graph Contents: 
+Node List:
+  %3 = alloca %struct.list_head*, align 8
+  %14 = getelementptr inbounds %struct.list_head, %struct.list_head* %13, i32 0, i32 0
+  %31 = getelementptr inbounds %struct.list_head, %struct.list_head* %30, i32 0, i32 0
+Edges size: 2
+  %3 = alloca %struct.list_head*, align 8--->   %14 = getelementptr inbounds %struct.list_head, %struct.list_head* %13, i32 0, i32 0
+  %14 = getelementptr inbounds %struct.list_head, %struct.list_head* %13, i32 0, i32 0--->   %31 = getelementptr inbounds %struct.list_head, %struct.list_head* %30, i32 0, i32 0
+
+============================
+
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: val_from_node
+No nodes in graph!
+
+============================
+
+Finished Liveness Iteration
+Function LiveIn Graph: 
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: __list_del
+Finished Liveness Iteration
+Function LiveIn Graph: 
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: gl_destroy
+Finished Liveness Iteration
+Function LiveIn Graph: 
+Access Graph Contents: 
+Node List:
+  %1 = alloca %struct.list_head*, align 8
+Edges size: 0
+
+============================
+
+***********************************************************

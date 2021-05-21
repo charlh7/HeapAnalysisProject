@@ -1,0 +1,94 @@
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: reach_error
+Finished Liveness Iteration
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: Sum
+No nodes in graph!
+
+============================
+
+No nodes in graph!
+
+============================
+
+No nodes in graph!
+
+============================
+
+Finished Liveness Iteration
+Function LiveIn Graph: 
+Access Graph Contents: 
+Node List:
+  %4 = alloca i32, align 4
+Edges size: 0
+
+============================
+
+Access Graph Contents: 
+Node List:
+  %2 = alloca %struct.Struct3*, align 8
+Edges size: 0
+
+============================
+
+Access Graph Contents: 
+Node List:
+  %3 = alloca i64, align 8
+Edges size: 0
+
+============================
+
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: Sum2
+No nodes in graph!
+
+============================
+
+No nodes in graph!
+
+============================
+
+No nodes in graph!
+
+============================
+
+Finished Liveness Iteration
+Function LiveIn Graph: 
+Access Graph Contents: 
+Node List:
+  %4 = alloca i32, align 4
+Edges size: 0
+
+============================
+
+Access Graph Contents: 
+Node List:
+  %2 = alloca %struct.Struct3*, align 8
+Edges size: 0
+
+============================
+
+Access Graph Contents: 
+Node List:
+  %3 = alloca i64, align 8
+Edges size: 0
+
+============================
+
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: main
+Finished Liveness Iteration
+Function LiveIn Graph: 
+***********************************************************
+
+ ------- Heap Liveness Analysis Pass ------- 
+Current Function: dummy_abort
+Finished Liveness Iteration
+***********************************************************
