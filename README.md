@@ -57,6 +57,7 @@ llvm-dis test4-19.bc
 "$builddir"/bin/opt -load "$builddir"/lib/LLVMHeapDataFlow.so -HeapDataFlow test4-19.bc -o testResult.bc
 
 ++++++++++++++++++++++++++++++++++++++++
+
 **"$builddir" should be replaced by your llvm build directory.
 
 If you are running the example4-19 test, the results should look similar to the 
