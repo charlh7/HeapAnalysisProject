@@ -20,7 +20,7 @@ namespace {
 
     bool runOnFunction(Function &F) override {
 
-      errs() << "\n ------- Heap Data Flow Transformation Pass ------- \n";
+      errs() << "\n ------- Heap Liveness Analysis Pass ------- \n";
 
       errs() << "Current Function: " << F.getName() << "\n";
 
@@ -33,7 +33,7 @@ namespace {
         //errs() << "This function <<<\n";
 
 
-          errs() << ">>> Checkpoint #1: Find Pointers\n";
+//          errs() << ">>> Checkpoint #1: Find Pointers\n";
           fillInstList(F, ptrList, instList);
 
           //errs() << "Inst List:\n";
@@ -41,7 +41,7 @@ namespace {
 
           //outputList(ptrList);
 
-          errs() << ">>> Checkpoint #2: Create Access Graphs\n";
+//          errs() << ">>> Checkpoint #2: Create Access Graphs\n";
 
 
           createAccessGraphs(F, ptrList, AGList);
@@ -56,7 +56,7 @@ namespace {
 
           //outputAccessGraphs(AGList);
 
-          errs() << ">>> Checkpoint #3: Perform Liveness Analysis on Access Graphs\n";
+//          errs() << ">>> Checkpoint #3: Perform Liveness Analysis on Access Graphs\n";
           doAGLivenessAnalysis(F, AGList, rootList, instList);
 
 

@@ -25,6 +25,7 @@ void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::v
 	int instCount = 0;
 //	std::vector<std::string> rootTags = getRootTags(rootList);
 	std::vector<Instruction*> tempInstList;
+//	errs() << "instList Size: " << instList.size() << "\n";
 	for(unsigned i = 0; i < instList.size(); i++){
         tempInstList.push_back(instList[i]);
 	}
@@ -32,6 +33,7 @@ void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::v
 	while(instList.size() > 0){
 
 	}*/
+	int iCount = 0;
 	for(unsigned i = tempInstList.size() - 1; i > 0; i--){
 //        if(instCount == 5){break;}
 
@@ -52,6 +54,7 @@ void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::v
 
 
 //        errs() << "currentInst: " << *inst << "\n";
+//        errs() << "stmtInsts Size: " << newInst->statementInsts.size() << "\n";
         newInst->thisInst = inst;
 
 
@@ -66,9 +69,14 @@ void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::v
             i = tempInstList.size();
         }
 
+//        errs() << "Done with iteration\n";
 
 
         instCount++;
+//        iCount++;
+//        if(iCount == instList.size()){
+//            break;
+//        }
         if(i == 0){
             break;
         }
@@ -197,10 +205,10 @@ void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::v
 //        }
 
 
-//        if(iterationCount == 4){
-//            errs() << ">>>>>>>>>>>>>Reached iteration count 4\n";
-//            break;
-//        }
+        if(iterationCount == 20){
+            errs() << ">>>>>>>>>>>>>Reached iteration count 20\n";
+            break;
+        }
 //
 //        if(changed == false){
 //            errs() << "Finished Liveness Iteration!\n";
@@ -687,18 +695,24 @@ void removeStatementInsts(std::vector<Instruction*> &instList, std::vector<Instr
     //errs() << "StatmentList Size: " << statementInsts.size() << "\n";
     while(statementInsts.size() > 0){
         Instruction* currentInst = statementInsts[0];
+//        errs() << "currentInst: " << *currentInst << "\n";
         //for(unsigned i = 0; i <  instList.size(); i++){
+        bool found = false;
         for(std::vector<Instruction*>::iterator firstInst = instList.begin(); firstInst != instList.end(); firstInst++){
-            //errs() << "inst iterator: " << **firstInst << "\n";
+//            errs() << "inst iterator: " << **firstInst << "\n";
             if(*firstInst == currentInst){
                 instList.erase(firstInst);
                 statementInsts.erase(statementInsts.begin());
+                found = true;
                 //errs() << "erased one\n";
                 //errs() << instList.size() << "\n";
                 break;
 
             }
 
+        }
+        if(!found){
+            statementInsts.erase(statementInsts.begin());
         }
         //errs() << "StatmentList Size: " << statementInsts.size() << "\n";
         //break;
@@ -740,6 +754,7 @@ BitVector getInstTypes(std::vector<Instruction*> rootList, InstAGInfo* &instInfo
 
 	BitVector typeBitVector(4);
 
+//	errs() << "Finding type\n";
 	//Assignment Statements: indicated by the StoreInst
 	//Function Call: indicated by CallInst followed by StoreInst
 	//Return Statement: indicated by ReturnInst
@@ -926,7 +941,7 @@ bool findRootUser(std::vector<Instruction*> rootList, std::vector<accessGraph*> 
 
     bool rootFound = false;
     //bool anotherInstFound = false;
-    //errs() << "Find Root User for Current Inst: " << *inst << "\n";
+//    errs() << "Find Root User for Current Inst: " << *inst << "\n";
     for(unsigned opNum = 0; opNum < inst->getNumOperands(); opNum++){
         /*if(statementInsts.size() > 20){
             break;
