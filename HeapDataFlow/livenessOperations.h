@@ -52,6 +52,7 @@ class InstAGInfo {
 		std::vector<accessGraph*> getELIn();
 		std::vector<accessGraph*> getELOut();
 		accessGraph* getELOutFromRoot(Instruction* root);
+		accessGraph* getELInFromRoot(Instruction* root);
 		accessGraph* getELGenFromRoot(Instruction* root);
 		void getSuccessors();
 };

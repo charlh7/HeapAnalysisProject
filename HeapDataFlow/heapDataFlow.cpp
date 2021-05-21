@@ -29,7 +29,7 @@ namespace {
       std::vector<accessGraph*> AGList;
       std::vector<Instruction*> instList;
 
-      if(F.getName() == "testCode"){
+//      if(F.getName() == "testCode"){
         //errs() << "This function <<<\n";
 
 
@@ -57,11 +57,14 @@ namespace {
           //outputAccessGraphs(AGList);
 
           errs() << ">>> Checkpoint #3: Perform Liveness Analysis on Access Graphs\n";
-          doAGLivenessAnalysis2(F, AGList, rootList, instList);
+          doAGLivenessAnalysis(F, AGList, rootList, instList);
+
+
+
 
           //accessGraph*
 
-      }
+//      }
 
 
       //if(F.getName() == "testCode"){

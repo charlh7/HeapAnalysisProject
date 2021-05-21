@@ -41,7 +41,7 @@ bool nextInstInfoSearch(Instruction* inst, std::vector<InstAGInfo*> InstAGList, 
 unsigned getInstPosition(Instruction* inst, std::vector<Instruction*> instList, bool &found);
 Instruction* findNearestInst(Instruction* inst, std::vector<Instruction*> instList);
 
-void doAGLivenessAnalysis2(Function &F, std::vector<accessGraph*> AGList,  std::vector<Instruction*> rootList, std::vector<Instruction*> instList);
+void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::vector<Instruction*> rootList, std::vector<Instruction*> instList);
 
 //void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::vector<Instruction*> rootList, std::vector<Instruction*> instList);
 void updateAGs(std::vector<InstAGInfo*> &InstAGInfoList, std::vector<Instruction*> rootList, std::vector<accessGraph*> AGList);

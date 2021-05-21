@@ -19,9 +19,10 @@ accessGraph::accessGraph(llvm::Instruction* p){
 	std::vector<gEdge*> edgeList;
 	edges = edgeList;
 	headRemoved = false;
-
+//    errs() << "In AG Instantiation\n";
 	//errs() << "edges size in inst constr:" << edges.size() << "\n";
 	if(p != NULL){
+//        errs() << "In AG Instantiation: p != Null\n";
 		head = new gNode(p);
 		nodes.push_back(head);
 
@@ -29,6 +30,7 @@ accessGraph::accessGraph(llvm::Instruction* p){
 		iterationCount = 0;
 	}
 	else{
+//        errs() << "In AG Instantiation: head is Null\n";
 		head = NULL;
 	}
 }
@@ -241,19 +243,20 @@ accessGraph* accessGraph::getUnion(accessGraph* AG){
 	accessGraph* newAG = new accessGraph(NULL);
 
 	if(AG == NULL){
+//        errs() << "first first if\n";
         return this;
 	}
 
 	else if((head == NULL) and (AG->getHead() == NULL)){
-        //errs() << "first if\n";
+//        errs() << "first if\n";
 		return newAG;
 	}
 	else if(head == NULL){
-        //errs() << "2nd if\n";
+//        errs() << "2nd if\n";
 		return AG;
 	}
 	else if(AG->getHead() == NULL){
-        //errs() << "3rd if\n";
+//        errs() << "3rd if\n";
 		return this;
 	}
 	else{
@@ -308,7 +311,7 @@ accessGraph* accessGraph::getUnion(accessGraph* AG){
 
 void accessGraph::removePath(std::vector<gEdge*> path){
 	//accessGraph* newAG = new accessGraph(NULL);
-	errs() << "Removing Path\n";
+//	errs() << "Removing Path\n";
 	headRemoved = false;
 	if(path.size() > 0){
 
@@ -317,11 +320,11 @@ void accessGraph::removePath(std::vector<gEdge*> path){
 //		}
 		if(checkForPath(path)){
 			deletePath(path);
-			errs() << "Deleted Path\n";
+//			errs() << "Deleted Path\n";
 			updateNodes();
 		}
 
-		errs() << "nodes size after update: " << nodes.size() << "\n";
+//		errs() << "nodes size after update: " << nodes.size() << "\n";
 	}
 	//return newAG;
 }
@@ -385,7 +388,7 @@ void accessGraph::removeAll(){
         nodes.erase(nodes.begin());
 	}
 
-    errs() << "Nodes Removed\n";
+//    errs() << "Nodes Removed\n";
 }
 
 
@@ -503,7 +506,7 @@ std::vector<gEdge*> accessGraph::constructPath(std::vector<gEdge*> remainderList
 	while(checkEdgeHeadsInList(remainderList, outgoingEdge->tail, foundEdge)){
 	//if(checkEdgeHeadsInList(remainderList, outgoingEdge->tail, foundEdge)){
 		if(checkEdgeInList(newPath, foundEdge)){
-			errs() << "Attempted to add duplicate edge to new Path\n";
+//			errs() << "Attempted to add duplicate edge to new Path\n";
 			break;
 		}
 		//errs() << " >>> edge connected to: " << *outgoingEdge->tail->inst << " found\n";

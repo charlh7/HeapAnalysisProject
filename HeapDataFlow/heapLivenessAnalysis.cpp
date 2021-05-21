@@ -3,7 +3,7 @@
 
 
 
-void doAGLivenessAnalysis2(Function &F, std::vector<accessGraph*> AGList,  std::vector<Instruction*> rootList, std::vector<Instruction*> instList){
+void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::vector<Instruction*> rootList, std::vector<Instruction*> instList){
 	//unsigned valNum = valueCount(F, ptrVector);
     //errs() << "valNum: " << valNum << "\n";
     /*for(unsigned i = 0; i < ptrVector.size(); i++){
@@ -90,26 +90,26 @@ void doAGLivenessAnalysis2(Function &F, std::vector<accessGraph*> AGList,  std::
 		addSuccessors(*i, InstAGInfoList, instList);
         //bCount++;
 	}
-	//errs() << "Added Successors\n";
+//	errs() << "Added Successors\n";
 
 	//Now, reverse iterate instructions, updating ELIn and ELOut untill there are no changes
 
 
 //	outputLiveInfo(InstAGInfoList, 0, 0);
-	errs() << "\n\nAccess Graphs after Analysis:\n";
+//	errs() << "\n\nAccess Graphs after Analysis:\n";
 
     int iterationCount = 0;
     bool changed = true;
     while(changed){
 //	while(iterationCount < 2){
         changed = false;
-        errs() << "\n\n>>>>>>>>>>>>> Iteration: " << iterationCount << "\n";
+//        errs() << "\n\n>>>>>>>>>>>>> Iteration: " << iterationCount << "\n";
         for(unsigned i = 0; i < InstAGInfoList.size(); i++){
     //    errs() << "****************************************************************************************\n\n";
-                errs() << "Current Inst: " << *InstAGInfoList[i]->thisInst << "\n";
-                errs() << "Instruction Number: " << i << "\n";
+//                errs() << "Current Inst: " << *InstAGInfoList[i]->thisInst << "\n";
+//                errs() << "Instruction Number: " << i << "\n";
     //			errs() << ">>>>>>>>>>>>";
-    //			outputType(InstAGInfoList[i]);
+//    			outputType(InstAGInfoList[i]);
     //
               std::vector<accessGraph*> currentIn = createAGCopies(InstAGInfoList[i]->ELIn);
               std::vector<accessGraph*> currentOut = createAGCopies(InstAGInfoList[i]->ELOut);
@@ -127,11 +127,11 @@ void doAGLivenessAnalysis2(Function &F, std::vector<accessGraph*> AGList,  std::
 //                    }
 //                }
 
-
+//                errs() << "Getting ELOut\n";
                 InstAGInfoList[i]->getELOut();
-    //			errs() << "Getting ELGEN\n";
+//    			errs() << "Getting ELGEN\n";
                 InstAGInfoList[i]->ELGen = getELGen(AGList, rootList, InstAGInfoList[i], InstAGInfoList[i]->thisInst);
-    //            errs() << "Getting ELKill Paths\n";
+//                errs() << "Getting ELKill Paths\n";
                 InstAGInfoList[i]->ELKillPath = getELKill(AGList, rootList, InstAGInfoList[i], InstAGInfoList[i]->thisInst);
 
 
@@ -183,7 +183,7 @@ void doAGLivenessAnalysis2(Function &F, std::vector<accessGraph*> AGList,  std::
     //
     //			}
 
-                errs() << "%%%%%%%%%%%%%%%%%%%%%%%%\n";
+//                errs() << "%%%%%%%%%%%%%%%%%%%%%%%%\n";
 
 //    			if(i == 1){ break;}
 
@@ -209,6 +209,18 @@ void doAGLivenessAnalysis2(Function &F, std::vector<accessGraph*> AGList,  std::
         iterationCount++;
 
 	}
+
+	errs() << "Finished Liveness Iteration\n";
+
+	if(InstAGInfoList.size() > 0){
+        errs() << "Function LiveIn Graph: \n";
+        InstAGInfo* firstInst = InstAGInfoList[InstAGInfoList.size()-1];
+        for(unsigned i = 0; i < firstInst->ELIn.size(); i++ ){
+            firstInst->ELIn[i]->outputGraphByInst();
+        }
+//        InstAGInfoList[InstAGInfoList.size()-1]->ELInoutputGraphByInst();
+	}
+
 //	outputLiveInfo(InstAGInfoList, 0, 0);
 //	outputLiveInfo(InstAGInfoList, 0, 1);
 
@@ -415,20 +427,20 @@ void outputType(InstAGInfo* instInfo){
 
 bool findChanges(std::vector<accessGraph*> AGSet1, std::vector<accessGraph*> AGSet2){
     if(AGSet1.size() != AGSet2.size()){
-        errs() << "Two AG sets are not the same size\n";
+//        errs() << "Two AG sets are not the same size\n";
         return true;
     }
     else{
 
         for(unsigned i = 0; i < AGSet1.size(); i++){
             if(*AGSet1[i] != *AGSet2[i]){
-                errs() << "Change detected in the two AG Sets\n";
+//                errs() << "Change detected in the two AG Sets\n";
                 return true;
             }
         }
 
     }
-    errs() << "Two AG sets are identical\n";
+//    errs() << "Two AG sets are identical\n";
 
     return false;
 
@@ -745,12 +757,12 @@ BitVector getInstTypes(std::vector<Instruction*> rootList, InstAGInfo* &instInfo
 
         typeBitVector.set(1);
         //instInfo->instType.set(1);
-        errs() << "found function call : " << *inst << "\n";
+//        errs() << "found function call : " << *inst << "\n";
         findRootUser(rootList, instInfo->usedAGs, instInfo->statementInsts, inst, true);
 
-        for(unsigned i = 0; i < instInfo->usedAGs.size() ; i++){
-            errs() << "statementType: " << instInfo->usedAGs[i]->getStatementType() << "\n";
-        }
+//        for(unsigned i = 0; i < instInfo->usedAGs.size() ; i++){
+//            errs() << "statementType: " << instInfo->usedAGs[i]->getStatementType() << "\n";
+//        }
 
 	}
 

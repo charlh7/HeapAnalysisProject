@@ -39,7 +39,7 @@ std::vector<accessGraph*> getELGen( std::vector<accessGraph*> AGList, std::vecto
     //errs() << "Getting LDirect\n";
 //    std::vector<accessGraph*> LDirectList = getLDirect(AGList, rootList, instInfo, inst);
 //    instInfo->LDirect = LDirectList;
-//	//errs() << "Getting LTransfer\n";
+
 //	std::vector<accessGraph*> LTransferList = getLTransfer(AGList, rootList, instInfo, inst);
 //    instInfo->LTransfer = LTransferList;
 	//errs() << "Finished Finding LDirect and LTransfer\n";
@@ -49,54 +49,54 @@ std::vector<accessGraph*> getELGen( std::vector<accessGraph*> AGList, std::vecto
 	//For now, only generate for assignment statements
 	//Assignment only applies when there is a pointer on each side of the equal sign
 
-	if(instInfo->updating){
-        if(instInfo->ELOut.size() == 0 || instInfo->instType[0] != 1){
-            //errs() << "ELOut Empty\n";
-            return instInfo->ELGen;
-        }
-//        else if(instInfo->instType[0] != 1){
+//	if(instInfo->updating){
+//        if(instInfo->ELOut.size() == 0 || instInfo->instType[0] != 1){
+//            //errs() << "ELOut Empty\n";
+//            return instInfo->ELGen;
+//        }
+////        else if(instInfo->instType[0] != 1){
+////
+////        }
+//        else{
+////            errs() << "ELOut nonzero\n";
+//            std::vector<accessGraph*> LDirectList = instInfo->LDirect;
+////            errs() << "Getting LTransfer\n";
+//            std::vector<accessGraph*> LTransferList = getLTransfer(AGList, rootList, instInfo, inst);
+//            instInfo->LTransfer = LTransferList;
+//
+//            if(instTypes[0] == 1){
+//
+//            //errs() << "LDirect Size: " << LDirectList.size() << "\n";
+//            //errs() << "LTransfer Size: " << LTransferList.size() << "\n";
+//
+//                for(unsigned i = 0; i < LDirectList.size(); i ++ ){
+//                    //errs() << "LDirect Statement Type: " << LDirectList[i]->getStatementType() << "\n";
+//                    //errs() << "LTransfer Statement Type: " << LTransferList[0]->getStatementType() << "\n";
+//
+//                    if(LDirectList[i]->getStatementType() == LTransferList[0]->getStatementType()){
+//                        accessGraph* unionedAG = LDirectList[i]->getUnion(LTransferList[0]);
+//                        //errs() << "Unioned AG: \n";
+//                        //unionedAG->outputGraph();
+//                        ELGenList.push_back(unionedAG);
+//                    }
+//                    else{
+//                        ELGenList.push_back(LDirectList[i]);
+//                    }
+//                }
+//            }
+//
+//
+//
+//            return ELGenList;
 //
 //        }
-        else{
-//            errs() << "ELOut nonzero\n";
-            std::vector<accessGraph*> LDirectList = instInfo->LDirect;
-
-            std::vector<accessGraph*> LTransferList = getLTransfer(AGList, rootList, instInfo, inst);
-            instInfo->LTransfer = LTransferList;
-
-            if(instTypes[0] == 1){
-
-            //errs() << "LDirect Size: " << LDirectList.size() << "\n";
-            //errs() << "LTransfer Size: " << LTransferList.size() << "\n";
-
-                for(unsigned i = 0; i < LDirectList.size(); i ++ ){
-                    //errs() << "LDirect Statement Type: " << LDirectList[i]->getStatementType() << "\n";
-                    //errs() << "LTransfer Statement Type: " << LTransferList[0]->getStatementType() << "\n";
-
-                    if(LDirectList[i]->getStatementType() == LTransferList[0]->getStatementType()){
-                        accessGraph* unionedAG = LDirectList[i]->getUnion(LTransferList[0]);
-                        //errs() << "Unioned AG: \n";
-                        //unionedAG->outputGraph();
-                        ELGenList.push_back(unionedAG);
-                    }
-                    else{
-                        ELGenList.push_back(LDirectList[i]);
-                    }
-                }
-            }
-
-
-
-            return ELGenList;
-
-        }
-	}
-    else{
-
+//	}
+//    else{
+//        errs() << "Getting ELDirect\n";
         std::vector<accessGraph*> LDirectList = getLDirect(AGList, rootList, instInfo, inst);
         instInfo->LDirect = LDirectList;
 
-
+//        errs() << "Got ELDIrect\n";
         if(instTypes[0] == 1){
             std::vector<accessGraph*> LTransferList = getLTransfer(AGList, rootList, instInfo, inst);
             instInfo->LTransfer = LTransferList;
@@ -129,11 +129,11 @@ std::vector<accessGraph*> getELGen( std::vector<accessGraph*> AGList, std::vecto
         }
 
 
-    }
+//    }
 
 	//errs() << "ELGen Size: " << ELGenList.size() << "\n";
 
-	//errs() << "Finished ELGen\n";*/
+//	errs() << "Finished ELGen\n";
 	return ELGenList;
 }
 
@@ -247,6 +247,7 @@ std::vector<accessGraph*> getLDirectAssignment(std::vector<accessGraph*> AGList,
         LDirectList[i]->outputGraph();
     }*/
 
+//    errs() << "Done w/ LDirect Assignment type\n";
 	return LDirectList;
 }
 
@@ -443,25 +444,25 @@ std::vector<accessGraph*> getLDirectFunctionCall(std::vector<accessGraph*> AGLis
 
 
     unsigned AGIndex = 0;
-    errs() << "adding extra path nodes\n";
-    if(AGInList(AGList, yAG, AGIndex)){
+//    errs() << "adding extra path nodes\n";
+//    if(AGInList(AGList, yAG, AGIndex)){
+//
+//        accessGraph* correspondingAG = AGList[AGIndex];
+//        std::vector<gEdge*> newEdges;
+//        getPathsFromInst(correspondingAG, newEdges, inst);
+//        //errs() << "New Edges:\n";
+//        for(unsigned i = 0; i < newEdges.size(); i++){
+//           // errs() << newEdges[i]->head->inst << ", " <<  newEdges[i]->tail->inst << "\n";
+//        }
+//        for(unsigned i = 0; i < newEdges.size(); i++){
+//            if(!(checkEdgeInList(yAG->getEdgeList(), newEdges[i]))){
+//                yAG->addNode(newEdges[i]->head, newEdges[i]->tail);
+//            }
+//        }
+//
+//    }
 
-        accessGraph* correspondingAG = AGList[AGIndex];
-        std::vector<gEdge*> newEdges;
-        getPathsFromInst(correspondingAG, newEdges, inst);
-        //errs() << "New Edges:\n";
-        for(unsigned i = 0; i < newEdges.size(); i++){
-           // errs() << newEdges[i]->head->inst << ", " <<  newEdges[i]->tail->inst << "\n";
-        }
-        for(unsigned i = 0; i < newEdges.size(); i++){
-            if(!(checkEdgeInList(yAG->getEdgeList(), newEdges[i]))){
-                yAG->addNode(newEdges[i]->head, newEdges[i]->tail);
-            }
-        }
-
-    }
-
-    errs() << "done adding extra path nodes\n";
+//    errs() << "done adding extra path nodes\n";
     //Need to handle LDirectz
 
     //Assuming all variables are global
@@ -527,10 +528,10 @@ std::vector<accessGraph*> getLDirectReturn(std::vector<accessGraph*> AGList, std
             std::vector<Instruction*> nodeInsts;
             unsigned numNodes = getNumMemNodes(rootInsts, nodeInsts, usedAGs[i]->getHead()->inst);
 
-            //errs() << "Statement Insts After Getting y:\n";
+//            errs() << "Statement Insts After Getting y:\n";
             //outputList(statementInsts);
 
-            //errs() << "num Nodes: " << numNodes << "\n";
+//            errs() << "num Nodes: " << numNodes << "\n";
 
             //y = mGraph(base(py)) u mGraph(py->*) [basically the entirety of py]
             //for now, y = mGraph(py)
@@ -542,7 +543,7 @@ std::vector<accessGraph*> getLDirectReturn(std::vector<accessGraph*> AGList, std
                 xAG = emptyGraph;
 
             }
-            if(numNodes == 1){
+            else if(numNodes == 1){
                 accessGraph* headGraph = new accessGraph(usedAGs[i]->getHead()->inst);
                 headGraph->setStatementType(usedAGs[i]->getStatementType());
                 //errs() << "headGraph: \n";
@@ -565,23 +566,23 @@ std::vector<accessGraph*> getLDirectReturn(std::vector<accessGraph*> AGList, std
 
 	}
 
-	unsigned AGIndex = 0;
-	if(AGInList(AGList, xAG, AGIndex)){
-
-            accessGraph* correspondingAG = AGList[AGIndex];
-            std::vector<gEdge*> newEdges;
-            getPathsFromInst(correspondingAG, newEdges, inst);
-            //errs() << "New Edges:\n";
-            for(unsigned i = 0; i < newEdges.size(); i++){
-                //errs() << newEdges[i]->head->inst << ", " <<  newEdges[i]->tail->inst << "\n";
-            }
-            for(unsigned i = 0; i < newEdges.size(); i++){
-                if(!(checkEdgeInList(xAG->getEdgeList(), newEdges[i]))){
-                    xAG->addNode(newEdges[i]->head, newEdges[i]->tail);
-                }
-            }
-
-        }
+//	unsigned AGIndex = 0;
+//	if(AGInList(AGList, xAG, AGIndex)){
+//
+//            accessGraph* correspondingAG = AGList[AGIndex];
+//            std::vector<gEdge*> newEdges;
+//            getPathsFromInst(correspondingAG, newEdges, inst);
+//            //errs() << "New Edges:\n";
+//            for(unsigned i = 0; i < newEdges.size(); i++){
+//                //errs() << newEdges[i]->head->inst << ", " <<  newEdges[i]->tail->inst << "\n";
+//            }
+//            for(unsigned i = 0; i < newEdges.size(); i++){
+//                if(!(checkEdgeInList(xAG->getEdgeList(), newEdges[i]))){
+//                    xAG->addNode(newEdges[i]->head, newEdges[i]->tail);
+//                }
+//            }
+//
+//        }
 
 
 
@@ -1192,9 +1193,25 @@ std::vector<accessGraph*> InstAGInfo::getELIn(){
 //        errs() << "unionGraph size:" << unionedGraphs.size() << "\n";
         if(!AGInList(unionedGraphs, usedAGs[i])){
 //            errs() << "AG: " << *usedAGs[i]->getHead()->inst << "not in unionedGraphs\n";
+//            errs() << "B4 ELOutAG\n";
             accessGraph* gUnion = new accessGraph(NULL);
+//            errs() << "After new AG Created\n";
+//            if(usedAGs[i]->getHead()->inst == NULL){
+//                errs() << "usedAGs Head is Null\n";
+//            }
+//            if(getELOutFromRoot(usedAGs[i]->getHead()->inst) == NULL){
+//                errs() << "getELOutFromRoot is Null\n";
+//            }
+//            usedAGs[i]->outputGraph();
+//
+//            accessGraph* testELOutAG = getELOutFromRoot(usedAGs[i]->getHead()->inst);
+//            if(getELOutFromRoot(usedAGs[i]->getHead()->inst) != NULL){
+//
+//            }
+//
+//            errs() << "Past TestELOutAG\n";
             if(accessGraph* ELOutAG = getELOutFromRoot(usedAGs[i]->getHead()->inst)){
-
+//                errs() << "After ELOutAG\n";
                 accessGraph* tempAG  = ELOutAG->copyGraph();
                 if(instNumber == 1){
 
@@ -1220,36 +1237,36 @@ std::vector<accessGraph*> InstAGInfo::getELIn(){
                     gUnion = gUnion->getUnion(tempAG);
                 }
             }
-
+//            errs() << "After if ELOutAG\n";
             if(accessGraph* ELGenAG = getELGenFromRoot(usedAGs[i]->getHead()->inst)){
 //            errs() << ">> Found ELGen AG\n";
 //
-                if(instNumber == 1){
-                    errs() << "Current gUnion Tag B4 ELGen Union: " << gUnion->getHead()->tag << "\n";
-                    gUnion->outputGraph();
-//                errs() << " ELGEN: \n";
-//                ELGenAG->outputGraphByInst();
-//                accessGraph* testgUnion = gUnion->getUnion(ELGenAG);
-////                errs() << "Test z union:\n";
-////                testgUnion->outputGraphByInst();
-////                errs() << "head:  " << *testgUnion->getHead()->inst << "\n";
-                }
+//                if(instNumber == 1){
+//                    errs() << "Current gUnion Tag B4 ELGen Union: " << gUnion->getHead()->tag << "\n";
+//                    gUnion->outputGraph();
+////                errs() << " ELGEN: \n";
+////                ELGenAG->outputGraphByInst();
+////                accessGraph* testgUnion = gUnion->getUnion(ELGenAG);
+//////                errs() << "Test z union:\n";
+//////                testgUnion->outputGraphByInst();
+//////                errs() << "head:  " << *testgUnion->getHead()->inst << "\n";
+//                }
 
 
                 gUnion = gUnion->getUnion(ELGenAG);
-
-                if(instNumber == 1){
-                   errs() << "Current gUnion Tag After ELGen Union: " << gUnion->getHead()->tag << "\n";
-                   gUnion->outputGraph();
-
-                }
+//
+//                if(instNumber == 1){
+//                   errs() << "Current gUnion Tag After ELGen Union: " << gUnion->getHead()->tag << "\n";
+//                   gUnion->outputGraph();
+//
+//                }
             }
 //            errs() << "current gUnion: \n";
-
-            if(instNumber == 1){
-                gUnion->outputGraph();
-
-            }
+//
+//            if(instNumber == 1){
+//                gUnion->outputGraph();
+//
+//            }
 
             if(gUnion->getHead() != NULL){
                 unionedGraphs.push_back(gUnion);
@@ -1260,7 +1277,7 @@ std::vector<accessGraph*> InstAGInfo::getELIn(){
 
         }
         else{
-            errs() << "AG: " << *usedAGs[i]->getHead()->inst << "already in unionedGraphs\n";
+//            errs() << "AG: " << *usedAGs[i]->getHead()->inst << "already in unionedGraphs\n";
         }
 
 
@@ -1268,15 +1285,16 @@ std::vector<accessGraph*> InstAGInfo::getELIn(){
 
 	}
 
+//    errs() << "Passed first part of ELIN\n";
 
 
 	for(unsigned i = 0; i < rootList.size(); i++){
 
         if(accessGraph* ELOutAG = getELOutFromRoot(rootList[i])){
             if(!AGInList(iteratedGraphs, ELOutAG)){
-                if(instNumber == 1){
-                    ELOutAG->outputGraph();
-                }
+//                if(instNumber == 1){
+//                    ELOutAG->outputGraph();
+//                }
                 unionedGraphs.push_back(ELOutAG);
             }
 
@@ -1298,24 +1316,68 @@ std::vector<accessGraph*> InstAGInfo::getELOut(){
 	//emptyGraph if at Start and not globalVar
 	//union of ELIn(successor bb) for each successor
 
-	//errs() << "succ size: " << successors.size() << "\n";
+//	errs() << "succ size: " << successors.size() << "\n";
 	if(successors.size() == 1){
 		ELOut = successors[0]->ELIn;
 	}
 	else if(successors.size() > 1){
 
 		std::vector<accessGraph*> unionedGraphs = successors[0]->ELIn;
+//		errs() << "Succ 1 size: " << successors[0]->ELIn.size() << "\n";
+//		errs() << "Succ 2 size: " << successors[1]->ELIn.size() << "\n";
 		for(unsigned i = 1; i < successors.size(); i++){
 			std::vector<accessGraph*> newUnionedGraphs;
+
 			for(unsigned j = 0; j < unionedGraphs.size(); j++){
-				accessGraph* newUnion = unionedGraphs[j]->getUnion(successors[i]->ELIn[j]);
-				newUnionedGraphs.push_back(newUnion);
+//                errs() << "b4 Getting Union\n";
+
+                if(accessGraph* ELInAG = successors[i]->getELInFromRoot(unionedGraphs[j]->getHead()->inst)){
+                    accessGraph* newUnion = unionedGraphs[j]->getUnion(ELInAG);
+                    newUnionedGraphs.push_back(newUnion);
+
+                }
+                 else{
+                    newUnionedGraphs.push_back(unionedGraphs[j]);
+                }
+
+//                if(successors[i]->ELIn.size() > j){
+//                    accessGraph* newUnion = unionedGraphs[j]->getUnion(successors[i]->ELIn[j]);
+//                    newUnionedGraphs.push_back(newUnion);
+//                }
+//                else{
+//                    newUnionedGraphs.push_back(newUnion);
+//                }
+//
+////				accessGraph* newUnion = unionedGraphs[j]->getUnion(successors[i]->ELIn[j]);
+//				errs() << "after Getting Union\n";
+//				newUnionedGraphs.push_back(newUnion);
 			}
 			unionedGraphs = newUnionedGraphs;
 		}
 		ELOut = unionedGraphs;
 	}
 	return ELOut;
+}
+
+accessGraph* InstAGInfo::getELInFromRoot(Instruction* root){
+
+//    errs() << "ELIn size: " << ELIn.size() << "\n";
+	for(unsigned i = 0; i < ELIn.size(); i++){
+//        errs() << "traversing ELOutFromRoot\n";
+//        ELOut[i]->outputGraphByInst();
+        if(ELIn[i]->getHead()){
+            if(ELIn[i]->getHead()->inst == root){
+                //ELOutFromRoot = ELOut[i];
+//                errs() << "Found ELOutFromRoot\n";
+                return ELIn[i];
+            }
+
+        }
+
+	}
+
+	return NULL;
+
 }
 
 
@@ -1325,12 +1387,19 @@ accessGraph* InstAGInfo::getELOutFromRoot(Instruction* root){
 //	errs() << "In get ELOut from Root\n";
 //	errs() << "ELOut size: " << ELOut.size() << "\n";
 	for(unsigned i = 0; i < ELOut.size(); i++){
-		if(ELOut[i]->getHead()->inst == root){
-			//ELOutFromRoot = ELOut[i];
-			return ELOut[i];
-		}
+//        errs() << "traversing ELOutFromRoot\n";
+//        ELOut[i]->outputGraphByInst();
+        if(ELOut[i]->getHead()){
+            if(ELOut[i]->getHead()->inst == root){
+                //ELOutFromRoot = ELOut[i];
+//                errs() << "Found ELOutFromRoot\n";
+                return ELOut[i];
+            }
+
+        }
+
 	}
-	//errs() << "no ELOut found that matches root\n";
+//	errs() << "no ELOut found that matches root\n";
 	//ELOutFromRoot =
 	return NULL;
 }
