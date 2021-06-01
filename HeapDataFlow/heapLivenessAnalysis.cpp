@@ -4,41 +4,31 @@
 
 
 void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::vector<Instruction*> rootList, std::vector<Instruction*> instList){
-	//unsigned valNum = valueCount(F, ptrVector);
-    //errs() << "valNum: " << valNum << "\n";
-    /*for(unsigned i = 0; i < ptrVector.size(); i++){
-    	errs() << "ptr: " << *ptrVector[i] << "\n";
-    }*/
+
 
     std::vector<accessGraph*> startAGList;
 
 
 	BitVector defsBitVector(AGList.size());//Create Initial BitVector for AG roots
-	//std::vector<BBAGInfo*> BBAGInfoList;
 	std::vector<InstAGInfo*> InstAGInfoList;
 
 	//Reverse Iterate the Instructions
-	//Create a ELIn, ELOut, ELKill, and ELGen set for each Instruction
-	//bool usageFound = false;
+	//Create a InstAGInfo for each valid Instruction
 
-	//Function::BasicBlockListType& bbList = F.getBasicBlockList();
 	int instCount = 0;
-//	std::vector<std::string> rootTags = getRootTags(rootList);
+
 	std::vector<Instruction*> tempInstList;
-//	errs() << "instList Size: " << instList.size() << "\n";
+
 	for(unsigned i = 0; i < instList.size(); i++){
         tempInstList.push_back(instList[i]);
 	}
-	/*int currentInst =
-	while(instList.size() > 0){
 
-	}*/
 	int iCount = 0;
 	for(unsigned i = tempInstList.size() - 1; i > 0; i--){
-//        if(instCount == 5){break;}
+
 
         Instruction* inst = tempInstList[i];
-        //errs() << "\n\nCurrentInst : " << *instList[i] << " <<<<<<<<<<<<<<<\n";
+//        errs() << "\n\nCurrentInst : " << *instList[i] << " <<<<<<<<<<<<<<<\n";
 //        errs() << "I: " << instCount << "\n";
 
         InstAGInfo* newInst = new InstAGInfo(AGList, rootList);
@@ -52,8 +42,6 @@ void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::v
         newInst->instType = getInstTypes(rootList, newInst, inst);
         newInst->statementInsts.push_back(inst);
 
-
-//        errs() << "currentInst: " << *inst << "\n";
 //        errs() << "stmtInsts Size: " << newInst->statementInsts.size() << "\n";
         newInst->thisInst = inst;
 
@@ -69,9 +57,6 @@ void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::v
             i = tempInstList.size();
         }
 
-//        errs() << "Done with iteration\n";
-
-
         instCount++;
 //        iCount++;
 //        if(iCount == instList.size()){
@@ -83,7 +68,6 @@ void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::v
 
 	}
 
-//    outputLiveInfo(InstAGInfoList, 0, 0);
 
 //-------------------------------------------------
 
@@ -94,46 +78,26 @@ void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::v
 	//Fill in instruction "successors" for convinience
 	int bCount = 0;
 	for(std::vector<InstAGInfo*>::reverse_iterator i = InstAGInfoList.rbegin(); i != InstAGInfoList.rend(); i++){
-        //if(bCount == 0){addSuccessors(*i, InstAGInfoList, instList);break;}
+
 		addSuccessors(*i, InstAGInfoList, instList);
-        //bCount++;
 	}
-//	errs() << "Added Successors\n";
-
-	//Now, reverse iterate instructions, updating ELIn and ELOut untill there are no changes
 
 
-//	outputLiveInfo(InstAGInfoList, 0, 0);
-//	errs() << "\n\nAccess Graphs after Analysis:\n";
+	//Now, reverse iterate instructions; finding ELGen and ELKillPath, and updating ELIn and ELOut untill there are no changes
 
     int iterationCount = 0;
     bool changed = true;
     while(changed){
-//	while(iterationCount < 2){
         changed = false;
 //        errs() << "\n\n>>>>>>>>>>>>> Iteration: " << iterationCount << "\n";
         for(unsigned i = 0; i < InstAGInfoList.size(); i++){
-    //    errs() << "****************************************************************************************\n\n";
-//                errs() << "Current Inst: " << *InstAGInfoList[i]->thisInst << "\n";
-//                errs() << "Instruction Number: " << i << "\n";
-    //			errs() << ">>>>>>>>>>>>";
-//    			outputType(InstAGInfoList[i]);
-    //
-              std::vector<accessGraph*> currentIn = createAGCopies(InstAGInfoList[i]->ELIn);
-              std::vector<accessGraph*> currentOut = createAGCopies(InstAGInfoList[i]->ELOut);
+//            errs() << "****************************************************************************************\n\n";
+//            errs() << "Current Inst: " << *InstAGInfoList[i]->thisInst << "\n";
+//			errs() << ">>>>>>>>>>>>";
+//    		outputType(InstAGInfoList[i]);
 
-//              errs() << ">>>>>>>currentELIn:\n";
-//              outputAGList(InstAGInfoList[i]->ELIn);
-//
-//              errs() << ">>>>>>>copied ELIn:\n";
-//              outputAGList(currentIn);
-
-//                if(i == 2){
-//                    for(unsigned j = 0; j < InstAGInfoList[i]->usedAGs.size() ; j++){
-//                        errs() << "statementType: " << InstAGInfoList[i]->usedAGs[j]->getStatementType() << "\n";
-//                        InstAGInfoList[i]->usedAGs[j]->outputGraphByInst();
-//                    }
-//                }
+            std::vector<accessGraph*> currentIn = createAGCopies(InstAGInfoList[i]->ELIn);
+            std::vector<accessGraph*> currentOut = createAGCopies(InstAGInfoList[i]->ELOut);
 
 //                errs() << "Getting ELOut\n";
                 InstAGInfoList[i]->getELOut();
@@ -142,77 +106,27 @@ void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::v
 //                errs() << "Getting ELKill Paths\n";
                 InstAGInfoList[i]->ELKillPath = getELKill(AGList, rootList, InstAGInfoList[i], InstAGInfoList[i]->thisInst);
 
-
-
-
-    //			updateAGs(InstAGInfoList, rootList, AGList);
-
-    //            if(i == 2){
-    //                errs() << ">> ELOUT B4 getELIN:\n";
-    //
-    //                for(unsigned j = 0; j < InstAGInfoList[i]->ELOut.size(); j++){
-    //                //errs() << "yo\n";
-    //                    InstAGInfoList[i]->ELOut[j]->outputGraphByInst();
-    //
-    //                }
-    //
-    //			}
-
 //                errs() << "Getting ELIn\n";
                 InstAGInfoList[i]->getELIn();
 
-//                errs() << "Done Getting ELIn\n";
 
+                if(findChanges(InstAGInfoList[i]->ELOut, currentOut)){
+                    changed = true;
+//                    errs() << "Changed detected in ELOut\n";
+                }
+                if(findChanges(InstAGInfoList[i]->ELIn, currentIn)){
+                    changed = true;
+//                    errs() << "Changed detected in ELIn\n";
+                }
 
-
-//                if(i == 0){
-                    if(findChanges(InstAGInfoList[i]->ELOut, currentOut)){
-                        changed = true;
-    //                    errs() << "Changed detected in ELOut\n";
-                    }
-                    if(findChanges(InstAGInfoList[i]->ELIn, currentIn)){
-                        changed = true;
-    //                    errs() << "Changed detected in ELIn\n";
-                    }
-
-//                }
-
-
-
-
-    //			if(i == 2){
-    //                errs() << ">> ELOUT after getELIN:\n";
-    //
-    //                for(unsigned j = 0; j < InstAGInfoList[i]->ELOut.size(); j++){
-    //                //errs() << "yo\n";
-    //                    InstAGInfoList[i]->ELOut[j]->outputGraphByInst();
-    //
-    //                }
-    //
-    //			}
-
-//                errs() << "%%%%%%%%%%%%%%%%%%%%%%%%\n";
-
-//    			if(i == 1){ break;}
 
         }
-//        if(iterationCount == 1){
-//            outputLiveInfo(InstAGInfoList, 0, 0);
-//        }
-//
-//        if(iterationCount == 2){
-//            outputLiveInfo(InstAGInfoList, 0, 1);
-//        }
-
-
+        //If the iteration count reaches 20, an unknown error most likely occured
         if(iterationCount == 20){
             errs() << ">>>>>>>>>>>>>Reached iteration count 20\n";
             break;
         }
-//
-//        if(changed == false){
-//            errs() << "Finished Liveness Iteration!\n";
-//        }
+
 
         iterationCount++;
 
@@ -220,27 +134,24 @@ void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::v
 
 	errs() << "Finished Liveness Iteration\n";
 
+	//Output the liveIn graphs of the first instruction, which represents the
+	// heap liveIn information for the currentfunction.
 	if(InstAGInfoList.size() > 0){
         errs() << "Function LiveIn Graph: \n";
         InstAGInfo* firstInst = InstAGInfoList[InstAGInfoList.size()-1];
         for(unsigned i = 0; i < firstInst->ELIn.size(); i++ ){
             firstInst->ELIn[i]->outputGraphByInst();
         }
-//        InstAGInfoList[InstAGInfoList.size()-1]->ELInoutputGraphByInst();
+
 	}
 
-//	outputLiveInfo(InstAGInfoList, 0, 0);
-//	outputLiveInfo(InstAGInfoList, 0, 1);
-
-
-
-
-//	outputLiveInfo(InstAGInfoList, 0, -1);
+//	outputLiveInfo(InstAGInfoList, -1);
+//	outputLiveInfo(InstAGInfoList, -1);
 
 }
 
 
-void outputLiveInfo(std::vector<InstAGInfo*> &InstAGInfoList, int infoTag, int index){
+void outputLiveInfo(std::vector<InstAGInfo*> &InstAGInfoList, int index){
 
 
     if(index != -1){
@@ -248,6 +159,23 @@ void outputLiveInfo(std::vector<InstAGInfo*> &InstAGInfoList, int infoTag, int i
         errs() << ">> inst# : " << index << "\n";
 //        errs() << ">> "
         outputType(InstAGInfoList[index]);
+
+        //------------------------------------------------------
+
+        //--- Output StatementInsts ----------------------------
+        errs() << ">>> StatementInsts: \n";
+        if(InstAGInfoList[index]->statementInsts.size() > 0){
+            for(unsigned j = 0; j < InstAGInfoList[index]->statementInsts.size(); j++){
+//                InstAGInfoList[index]->ELGen[j]->outputGraphByInst();
+                errs() << *InstAGInfoList[index]->statementInsts[j] << "\n";
+            }
+        }
+
+
+
+       //------------------------------------------------------
+
+
 //        if(InstAGInfoList[index]->successors.size() > 0){
 //            errs() << ">> Successor inst: " << *InstAGInfoList[index]->successors[0]->thisInst << "\n";
 //        }
@@ -268,33 +196,33 @@ void outputLiveInfo(std::vector<InstAGInfo*> &InstAGInfoList, int infoTag, int i
 //
 //        //------------------------------------------------------
 //
-        errs() << ">>> ELIn: \n";
-        errs() << ">>> ELIn size: " << InstAGInfoList[index]->ELIn.size() << "\n";
+//        errs() << ">>> ELIn: \n";
+//        errs() << ">>> ELIn size: " << InstAGInfoList[index]->ELIn.size() << "\n";
 
 //        for(unsigned j = 0; j < InstAGInfoList[index]->ELIn.size(); j++){
 //        //errs() << "yo\n";
 //            InstAGInfoList[index]->ELIn[j]->outputGraphByInst();
 //
 //        }
-
-        for(unsigned j = 0; j < InstAGInfoList[index]->ELIn.size(); j++){
-        //errs() << "yo\n";
-            InstAGInfoList[index]->ELIn[j]->outputGraph();
-
-        }
+//
+//        for(unsigned j = 0; j < InstAGInfoList[index]->ELIn.size(); j++){
+//        //errs() << "yo\n";
+//            InstAGInfoList[index]->ELIn[j]->outputGraph();
+//
+//        }
 
 
 
         //------------------------------------------------------
 
-
-        errs() << ">>> EGen: \n";
-        if(InstAGInfoList[index]->ELGen.size() > 0){
-            for(unsigned j = 0; j < InstAGInfoList[index]->ELGen.size(); j++){
-//                InstAGInfoList[index]->ELGen[j]->outputGraphByInst();
-                InstAGInfoList[index]->ELGen[j]->outputGraph();
-            }
-        }
+//
+//        errs() << ">>> EGen: \n";
+//        if(InstAGInfoList[index]->ELGen.size() > 0){
+//            for(unsigned j = 0; j < InstAGInfoList[index]->ELGen.size(); j++){
+////                InstAGInfoList[index]->ELGen[j]->outputGraphByInst();
+//                InstAGInfoList[index]->ELGen[j]->outputGraph();
+//            }
+//        }
 
         //------------------------------------------------------
 
@@ -456,12 +384,7 @@ bool findChanges(std::vector<accessGraph*> AGSet1, std::vector<accessGraph*> AGS
 
 std::vector<accessGraph*> createAGCopies(std::vector<accessGraph*> AGList){
     std::vector<accessGraph*> AGCopyList;
-//
-//    errs() << "AGList size: " << AGList.size() << "\n";
-//
-//    if(AGList.size() > 0){
-//        AGList[0]->outputGraph();
-//    }
+
     for(unsigned i = 0; i < AGList.size(); i++){
         accessGraph* copyAG = AGList[i]->copyGraph();
         AGCopyList.push_back(copyAG);
@@ -471,27 +394,9 @@ std::vector<accessGraph*> createAGCopies(std::vector<accessGraph*> AGList){
     return AGCopyList;
 }
 
-void updateAGs(std::vector<InstAGInfo*> &InstAGInfoList, std::vector<Instruction*> rootList, std::vector<accessGraph*> AGList){
-
-    for(unsigned i = 0; i < InstAGInfoList.size(); i++){
-//        errs() << "Updating Inst #: " << i << "\n";
-        InstAGInfoList[i]->updating = true;
-        InstAGInfoList[i]->ELGen = getELGen(AGList, rootList, InstAGInfoList[i], InstAGInfoList[i]->thisInst);
-    }
-}
 
 void addSuccessors(InstAGInfo* &currentInst, std::vector<InstAGInfo*> InstAGList, std::vector<Instruction*> instList){
 	//The 'successors" of an Instruction are its Users
-	//errs() << ">>> Adding Successors:\n";
-	//errs() << "Current Inst: " << *currentInst->thisInst << "\n\n";
-	//for(Value::user_iterator firstUser = currentInst->thisInst->user_begin(); firstUser != currentInst->thisInst->user_end(); firstUser++){
-	//	llvm::Instruction* currentUserInst = dyn_cast<llvm::Instruction>(*firstUser);
-
-	//	errs() << ">>> user: " << *currentUserInst << "\n";
-
-
-
-    //for(unsigned i = 0; i < InstAGList.size(); i++){
 
     int limitCount = 0;
     for(std::vector<InstAGInfo*>::reverse_iterator i = InstAGList.rbegin(); i != InstAGList.rend(); i++){
@@ -499,13 +404,9 @@ void addSuccessors(InstAGInfo* &currentInst, std::vector<InstAGInfo*> InstAGList
             if(checkSuccessor(currentInst, *i, instList)){
                 currentInst->successors.push_back(*i);
             }
-            //break;
         }
 
-        //if(limitCount == 3){break;}
-        //limitCount++;
     }
-
 
     //errs() << ">>> Done adding successors\n\n";
 }
@@ -528,10 +429,6 @@ bool checkSuccessor(InstAGInfo* currInst, InstAGInfo* succInst, std::vector<Inst
         Instruction* nearestInst = findNearestInst(currInst->thisInst, instList);
         bool found = false;
         unsigned instIndex = getInstPosition(nearestInst, succInst->statementInsts, found);
-
-        if(found){
-            //errs() << "succInst is a successor! yay!\n";
-        }
         return found;
     }
     else{
@@ -539,16 +436,14 @@ bool checkSuccessor(InstAGInfo* currInst, InstAGInfo* succInst, std::vector<Inst
         //errs() << "------------> Different Parent\n";
         //Check if this is a branch inst
         if(isa<BranchInst>(currInst->thisInst)){
-            //errs() << "------------> Branch Inst\n";
+
             if(checkForBranchAGInfo(currInst->thisInst, succInst)){
-                //errs() << "succInst is a successor! yay!\n";
                 return true;
             }
         }
         else{
             //If this isn't a branch inst, look for nearest inst that inst in currInst stmtList until reaching a branch
             Instruction* nearestInst = findNearestInst(currInst->thisInst, instList);
-            //errs() << "NearestInst: " << *nearestInst << "\n";
             if(isa<BranchInst>(nearestInst)){
                 //errs() << "------------> Nearest Inst is a Branch Inst\n";
                 bool foundSucc = checkForBranchAGInfo(nearestInst, succInst);

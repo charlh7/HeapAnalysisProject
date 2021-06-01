@@ -28,7 +28,7 @@ struct instStatement{
 
 
 
-void outputLiveInfo(std::vector<InstAGInfo*> &InstAGInfoList, int infoTag, int index);
+void outputLiveInfo(std::vector<InstAGInfo*> &InstAGInfoList, int index);
 void outputType(InstAGInfo* instInfo);
 std::vector<accessGraph*> createAGCopies(std::vector<accessGraph*> AGList);
 bool findChanges(std::vector<accessGraph*> AGSet1, std::vector<accessGraph*> AGSet2);
@@ -43,8 +43,7 @@ Instruction* findNearestInst(Instruction* inst, std::vector<Instruction*> instLi
 
 void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::vector<Instruction*> rootList, std::vector<Instruction*> instList);
 
-//void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::vector<Instruction*> rootList, std::vector<Instruction*> instList);
-void updateAGs(std::vector<InstAGInfo*> &InstAGInfoList, std::vector<Instruction*> rootList, std::vector<accessGraph*> AGList);
+//void updateAGs(std::vector<InstAGInfo*> &InstAGInfoList, std::vector<Instruction*> rootList, std::vector<accessGraph*> AGList);
 
 void removeStatementInsts(std::vector<Instruction*> &instList, std::vector<Instruction*> statementInsts);
 void outputList(std::vector<Instruction*> instList);

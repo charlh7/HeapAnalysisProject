@@ -63,8 +63,9 @@ std::vector<accessGraph*> getELGen( std::vector<accessGraph*> AGList, std::vecto
 std::vector<Instruction*> extractStatementInsts(Instruction* rootInst, std::vector<Instruction*> statementInsts);
 
 std::vector<accessGraph*> getLDirect( std::vector<accessGraph*> AGList, std::vector<Instruction*> rootList, InstAGInfo *instInfo, Instruction* inst);
-std::vector<accessGraph*> getLDirectAssignment( std::vector<accessGraph*> AGList, std::vector<Instruction*> rootList, InstAGInfo *instInfo, Instruction* inst);
 
+std::vector<accessGraph*> getLDirectAssignment( std::vector<accessGraph*> AGList, std::vector<Instruction*> rootList, InstAGInfo *instInfo, Instruction* inst);
+Instruction* findStoreInst(std::vector<Instruction*> instList);
 std::vector<Instruction*> extractAssignmentStatementInsts(Instruction* rootInst, std::vector<Instruction*> &statementInsts);
 
 std::vector<accessGraph*> getLDirectFunctionCall(std::vector<accessGraph*> AGList, std::vector<Instruction*> rootList, InstAGInfo *instInfo, Instruction* inst);

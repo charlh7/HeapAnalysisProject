@@ -19,117 +19,42 @@ namespace {
     HeapDataFlow() : FunctionPass(ID) {}
 
     bool runOnFunction(Function &F) override {
+        if(F.getName() == "__list_add" || F.getName() == "testCode"){
+            errs() << "\n ------- Heap Liveness Analysis Pass ------- \n";
 
-      errs() << "\n ------- Heap Liveness Analysis Pass ------- \n";
+            errs() << "Current Function: " << F.getName() << "\n";
 
-      errs() << "Current Function: " << F.getName() << "\n";
-
-      std::vector<Instruction*> ptrList;
-      std::vector<Instruction*> rootList;
-      std::vector<accessGraph*> AGList;
-      std::vector<Instruction*> instList;
-
-//      if(F.getName() == "testCode"){
-        //errs() << "This function <<<\n";
+            std::vector<Instruction*> ptrList;
+            std::vector<Instruction*> rootList;
+            std::vector<accessGraph*> AGList;
+            std::vector<Instruction*> instList;
 
 
+            fillInstList(F, ptrList, instList);
+
+    //          errs() << ">>> Checkpoint #2: Create Access Graphs\n";
+            createAccessGraphs(F, ptrList, AGList);
+
+            for(unsigned i = 0; i < AGList.size(); i++){
+                rootList.push_back(AGList[i]->getHead()->inst);
+            }
+
+            //          errs() << ">>> Checkpoint #3: Perform Liveness Analysis on Access Graphs\n";
+            doAGLivenessAnalysis(F, AGList, rootList, instList);
+
+            errs() << "***********************************************************\n";
+      }
 //          errs() << ">>> Checkpoint #1: Find Pointers\n";
-          fillInstList(F, ptrList, instList);
-
-          //errs() << "Inst List:\n";
-          //outputList(instList);
-
-          //outputList(ptrList);
-
-//          errs() << ">>> Checkpoint #2: Create Access Graphs\n";
 
 
-          createAccessGraphs(F, ptrList, AGList);
-
-          for(unsigned i = 0; i < AGList.size(); i++){
-            rootList.push_back(AGList[i]->getHead()->inst);
-          }
-          //errs() << "Root List: \n";
-          //outputList(rootList);
-
-          //outputRoots(AGList);
-
-          //outputAccessGraphs(AGList);
-
-//          errs() << ">>> Checkpoint #3: Perform Liveness Analysis on Access Graphs\n";
-          doAGLivenessAnalysis(F, AGList, rootList, instList);
-
-
-
-
-          //accessGraph*
-
-//      }
-
-
-      //if(F.getName() == "testCode"){
-        //errs() << "This function <<<\n";
-
-    /*
-      errs() << ">>> Checkpoint #1: Find Pointers\n";
-      fillInstList(F, ptrList, instList);
-
-      //errs() << "Inst List:\n";
-      //outputList(instList);
-
-      //outputList(ptrList);
-
-      errs() << ">>> Checkpoint #2: Create Access Graphs\n";
-      createAccessGraphs(F, ptrList, AGList);
-      outputRoots(AGList);
-
-      //outputAccessGraphs(AGList);
-
-      errs() << ">>> Checkpoint #3: Perform Liveness Analysis on Access Graphs\n";
-      doAGLivenessAnalysis(F, AGList, ptrList, instList);
-
-          //accessGraph*
-    */
-
-
-      //}
-
-
-	  //outputList(ptrList);
-	  //outputList(instList);
 
 	  /*testUnion(AGList);
 	  testPathRemoval(AGList);
 	  testFactorization(AGList);
 	  testExtension(AGList);*/
 
-	  //errs() << "Access Graphs after Analysis:\n";
-
-	  /*if(F.getName() == "test_fun"){
-        errs() << ">>> Checkpoint #1: Find Pointers\n";
-          fillInstList(F, ptrList, instList);
-
-          //errs() << "Inst List:\n";
-          //outputList(instList);
-
-          //outputList(ptrList);
-
-          errs() << ">>> Checkpoint #2: Create Access Graphs\n";
-          createAccessGraphs(F, ptrList, AGList);
-          outputRoots(AGList);
-
-          //outputAccessGraphs(AGList);
-
-          errs() << ">>> Checkpoint #3: Perform Liveness Analysis on Access Graphs\n";
-          doAGLivenessAnalysis(F, AGList, ptrList, instList);
 
 
-
-	  }*/
-
-
-
-	  errs() << "***********************************************************\n";
 
       return false;
     }

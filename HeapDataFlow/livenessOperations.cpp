@@ -201,6 +201,13 @@ std::vector<accessGraph*> getLDirectAssignment(std::vector<accessGraph*> AGList,
 	//errs() << "Statement Insts B4:\n";
 	//outputList(statementInsts);
 
+//	if(instInfo->instNumber == 3){
+////        errs() << "UsedAGs size: " << usedAGs.size() << "\n";
+//        errs() << "currentInst: " << *instInfo->thisInst << "\n";
+//
+//        Instruction* storeInst = findStoreInst(statementInsts);
+//	}
+
 	for(unsigned i = 0; i < usedAGs.size(); i++){
         //errs() << "root: " << *usedAGs[i]->getHead()->inst << "\n";
 
@@ -208,13 +215,24 @@ std::vector<accessGraph*> getLDirectAssignment(std::vector<accessGraph*> AGList,
         std::vector<Instruction*> rootInsts = extractAssignmentStatementInsts(usedAGs[i]->getHead()->inst, statementInsts);
         //errs() << "Statement Insts After:\n";
         //outputList(statementInsts);
-        //rootInstLists.push_back( rootInsts );
 
         //Determine how many nodes are branching out of the head
         std::vector<Instruction*> nodeInsts;
         int numNodes = getNumMemNodes(rootInsts, nodeInsts, usedAGs[i]->getHead()->inst);
 
-        //errs() << "Nodes branched out: " << numNodes << "\n";
+//        if(instInfo->instNumber == 3){
+//
+////            errs() << "LDirect Assignment for inst: " << *instInfo->thisInst << "\n";
+//
+//            errs() << "root: " << *usedAGs[i]->getHead()->inst << "\n";
+//            errs() << "rootInsts size: " << rootInsts.size() << "\n";
+//            errs() << "root List:\n";
+//            for(unsigned j = 0; j < rootInsts.size(); j++){
+//                errs() << "rootInst: " << *rootInsts[j] << "\n";
+//            }
+//            errs() << "Nodes branched out: " << numNodes << "\n";
+//        }
+
 
         //If the only node is the head node
         if(numNodes == 0){
@@ -253,7 +271,11 @@ std::vector<accessGraph*> getLDirectAssignment(std::vector<accessGraph*> AGList,
 
 std::vector<Instruction*> extractAssignmentStatementInsts(Instruction* rootInst, std::vector<Instruction*> &statementInsts){
     std::vector<Instruction*> rootStatementInsts;
+
     Instruction* endInst = statementInsts[statementInsts.size() - 1];
+    bool checkLastInst = false;
+
+    Instruction* storeInst = findStoreInst(statementInsts);
 
 
     Instruction* currentInst = rootInst;
@@ -262,28 +284,51 @@ std::vector<Instruction*> extractAssignmentStatementInsts(Instruction* rootInst,
     while(userFound){
         userFound = false;
         for(unsigned i = 0; i < statementInsts.size(); i++){
-            //errs() << "currentInst: " << *statementInsts[i] << "\n";
+//            errs() << "current StatementInst: " << *statementInsts[i] << "\n";
             if(isAUser(currentInst, statementInsts[i])){
                 userFound = true;
                 currentInst = statementInsts[i];
-                //errs() << "B4 erase\n";
-                statementInsts.erase(statementInsts.begin() + i);
-                //errs() << "After erase\n";
-                rootStatementInsts.push_back(currentInst);
+
+                if(currentInst != storeInst){
+                    statementInsts.erase(statementInsts.begin() + i);
+                    rootStatementInsts.push_back(currentInst);
+                }
+
                 break;
             }
         }
-        //errs() << "------- \n";
         if(currentInst == endInst){
-            break;
+            if(statementInsts.size() > 0 && checkLastInst){
+                break;
+            }
+            else if(statementInsts.size() > 0){
+                checkLastInst = true;
+            }
+            else{
+                break;
+            }
+
         }
 
     }
+//    errs() << "------------endStatementInsts\n\n";
     //errs() << "Current Root Inst: " << *rootInst << "\n";
     //outputList(rootStatementInsts);
     //errs() << "\n\n";
     return rootStatementInsts;
 
+}
+
+Instruction* findStoreInst(std::vector<Instruction*> instList){
+
+    for(unsigned i = 0; i < instList.size(); i++){
+        if(isa<StoreInst>(instList[i])){
+            //errs() << "Store Inst found: " << *instList[i] << "\n";
+            return instList[i];
+        }
+    }
+
+    return NULL;
 }
 
 std::vector<Instruction*> extractFCallStatementInsts(Instruction* rootInst, std::vector<Instruction*> &statementInsts){
