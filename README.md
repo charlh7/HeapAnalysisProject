@@ -63,6 +63,8 @@ llvm-dis test4-19.bc
 If you are running the example4-19 test, the results should look similar to the 
 screenshot included in the TestExample4-19 directory.
 
+![FreeableInstsImage](FreeablePointersGraph.png)
+
 
 
 
