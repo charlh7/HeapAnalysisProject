@@ -63,6 +63,11 @@ llvm-dis test4-19.bc
 If you are running the example4-19 test, the results should look similar to the 
 screenshot included in the TestExample4-19 directory.
 
+--------------------------------
+
+I also included a graph showing some of the results I obtained when I ran LHGAP on some of the SV-COMP benchmarks to demonstrate the potential of this project. The graph is shown in the image below.
+
+
 ![FreeableInstsImage](FreeablePointersGraph.png)
 
 
