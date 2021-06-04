@@ -7,6 +7,7 @@
 #include "llvm/Passes/StandardInstrumentations.h"
 
 
+
 #include "heapLivenessAnalysis.h"
 #include "testAGOperations.h"
 
@@ -19,7 +20,7 @@ namespace {
     HeapDataFlow() : FunctionPass(ID) {}
 
     bool runOnFunction(Function &F) override {
-        if(F.getName() == "__list_add" || F.getName() == "testCode"){
+//        if(F.getName() == "__list_add" || F.getName() == "testCode"){
             errs() << "\n ------- Heap Liveness Analysis Pass ------- \n";
 
             errs() << "Current Function: " << F.getName() << "\n";
@@ -39,11 +40,13 @@ namespace {
                 rootList.push_back(AGList[i]->getHead()->inst);
             }
 
+            AAResults &aliasResults = getAnalysis<AAResultsWrapperPass>().getAAResults();
+
             //          errs() << ">>> Checkpoint #3: Perform Liveness Analysis on Access Graphs\n";
-            doAGLivenessAnalysis(F, AGList, rootList, instList);
+            doAGLivenessAnalysis(F, AGList, rootList, instList, &aliasResults);
 
             errs() << "***********************************************************\n";
-      }
+//      }
 //          errs() << ">>> Checkpoint #1: Find Pointers\n";
 
 
@@ -58,6 +61,14 @@ namespace {
 
       return false;
     }
+
+
+    void getAnalysisUsage(AnalysisUsage &AU) const {
+        AU.setPreservesCFG();
+        AU.addRequired<AAResultsWrapperPass>();
+
+    }
+
 
    void fillInstList(Function &F,std::vector<Instruction*> &pointerList, std::vector<Instruction*> &instList){
 

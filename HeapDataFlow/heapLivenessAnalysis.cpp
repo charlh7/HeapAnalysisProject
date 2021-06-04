@@ -3,7 +3,7 @@
 
 
 
-void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::vector<Instruction*> rootList, std::vector<Instruction*> instList){
+void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::vector<Instruction*> rootList, std::vector<Instruction*> instList, AAResults* aliasAnalysis){
 
 
     std::vector<accessGraph*> startAGList;
@@ -21,6 +21,7 @@ void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::v
 
 	for(unsigned i = 0; i < instList.size(); i++){
         tempInstList.push_back(instList[i]);
+        bool aliasFound = findAliases(instList, aliasAnalysis, instList[i]);
 	}
 
 	int iCount = 0;
@@ -136,19 +137,197 @@ void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::v
 
 	//Output the liveIn graphs of the first instruction, which represents the
 	// heap liveIn information for the currentfunction.
-	if(InstAGInfoList.size() > 0){
-        errs() << "Function LiveIn Graph: \n";
-        InstAGInfo* firstInst = InstAGInfoList[InstAGInfoList.size()-1];
-        for(unsigned i = 0; i < firstInst->ELIn.size(); i++ ){
-            firstInst->ELIn[i]->outputGraphByInst();
+//	if(InstAGInfoList.size() > 0){
+//        errs() << "Function LiveIn Graph: \n";
+//        InstAGInfo* firstInst = InstAGInfoList[InstAGInfoList.size()-1];
+//        for(unsigned i = 0; i < firstInst->ELIn.size(); i++ ){
+//            firstInst->ELIn[i]->outputGraphByInst();
+//        }
+//
+//	}
+
+//	outputLiveInfo(InstAGInfoList, -1);
+//	outputLiveInfo(InstAGInfoList, -1);
+
+    int freedInstCount = 0;
+
+    for(unsigned i = 0; i < InstAGInfoList.size(); i++){
+        determineFreeableInsts(instList, aliasAnalysis, InstAGInfoList[i]);
+
+        for(unsigned j = 0; j < InstAGInfoList[i]->diffInsts.size(); j++){
+//            errs() << "Diff Insts: " << *InstAGInfoList[i]->diffInsts[j] << "\n\n";
+//            errs() << "Diff Insts: " << *InstAGInfoList[i]->diffInsts[j] << "\n\n";
+            freedInstCount++;
         }
 
-	}
 
-//	outputLiveInfo(InstAGInfoList, -1);
-//	outputLiveInfo(InstAGInfoList, -1);
+    }
+
+    errs() << "There are << " << freedInstCount << " >> freeable pointers in this function\n\n";
+
+
+
+//    determineFreeableInsts(instList, aliasAnalysis, InstAGInfoList);
 
 }
+
+
+void determineFreeableInsts(std::vector<Instruction*> instList, AAResults* aliasAnalysis, InstAGInfo* AGInfo){
+
+//    InstAGInfoList[1]->output
+
+    std::vector<Instruction*> liveInInsts = getLiveInInstList(AGInfo);
+//    errs() << "Done with LiveInlist\n";
+    std::vector<Instruction*> liveOutInsts = getLiveOutInstList(AGInfo);
+
+//    errs() << "liveInInsts size: " << liveInInsts.size() << "\n";
+
+//    for(unsigned i = 0; i < liveInInsts.size(); i++){
+//        errs() << "liveIn Insts: " << *liveInInsts[i] << "\n";
+//
+//    }
+////
+//    for(unsigned i = 0; i < liveOutInsts.size(); i++){
+//        errs() << "liveOut Insts: " << *liveOutInsts[i] << "\n";
+//
+//    }
+//
+    AGInfo->diffInsts = findInstDifference(liveInInsts, liveOutInsts);
+
+
+    for(unsigned j = 0; j < AGInfo->diffInsts.size(); j++){
+//        errs() << "Inst #: " << i << "\n";
+//        errs() << "Diff Insts: " << *AGInfo->diffInsts[j] << "\n\n";
+    }
+
+//    for(unsigned i = 0; i < AGInfo->diffInsts.size(); i++){
+//        errs() << "Diff Insts: " << *AGInfo->diffInsts[i] << "\n";
+//
+//    }
+
+//    AGInfo->diffInsts = findInstDifference(liveInInsts, liveOutInsts);
+
+//    for(unsigned i = 0; i < instList.size(); i++){
+//        if ( isa<PointerType>(instList[i]->getType()) ){
+//            //errs() << "Pointer Inst: " << *instList[i] << "\n";
+//        }
+//    }
+
+}
+
+std::vector<Instruction*> findInstDifference(std::vector<Instruction*> liveInInsts, std::vector<Instruction*> liveOutInsts){
+
+    std::vector<Instruction*> diffInsts;
+
+    if(liveOutInsts.size() == 0){
+        return diffInsts;
+    }
+
+    for(unsigned i = 0; i < liveInInsts.size(); i++){
+
+//        errs() << "instFound: " << findInst(liveOutInsts, liveInInsts[i]) << "\n";
+        if( ! (findInst(liveOutInsts, liveInInsts[i])) ){
+//            errs() << "inst not Found: " << findInst(liveOutInsts, liveInInsts[i]) << " " << *liveInInsts[i] << "\n";
+
+            diffInsts.push_back(liveInInsts[i]);
+        }
+    }
+
+
+    return diffInsts;
+
+}
+
+bool findInst(std::vector<Instruction*> instList, Instruction* inst){
+
+    for(unsigned i = 0; i < instList.size(); i++){
+        if(instList[i] == inst){
+
+//            errs() << "inst: " << *inst << "found\n";
+            return true;
+            //errs() << "inst: " << instList[i] << "found\n";
+        }
+    }
+//    errs() << "inst: " << *inst << "not found\n";
+    return false;
+}
+
+std::vector<Instruction*> getLiveInInstList(InstAGInfo* AGInfo){
+
+    std::vector<Instruction*> liveInsts;
+    for(unsigned i = 0; i < AGInfo->ELIn.size(); i++){
+        accessGraph* currentAG = AGInfo->ELIn[i];
+
+        for(unsigned j = 0; j < currentAG->getNodeList().size(); j++){
+            if(currentAG->getNodeList()[j] != NULL && currentAG->getNodeList()[j]->inst != NULL){
+
+                liveInsts.push_back(currentAG->getNodeList()[j]->inst);
+            }
+        }
+
+    }
+    return liveInsts;
+}
+
+std::vector<Instruction*> getLiveOutInstList(InstAGInfo* AGInfo){
+
+    std::vector<Instruction*> liveInsts;
+    for(unsigned i = 0; i < AGInfo->ELOut.size(); i++){
+        accessGraph* currentAG = AGInfo->ELOut[i];
+//        if(currentAG == NULL){
+//            errs() << "NULL AG\n";
+//        }
+//        errs() << "B4 Finding out if NULL\n";
+        for(unsigned j = 0; j < currentAG->getNodeList().size(); j++){
+//            errs() << "Finding out if NULL\n";
+//            if(currentAG->getNodeList()[i] == NULL){
+//                errs() << "NULL gNode\n";
+//            }
+//            else if(currentAG->getNodeList()[i]->inst == NULL){
+//
+//                errs() << "NULL Inst\n";
+//            }
+
+            if(currentAG->getNodeList()[j] != NULL && currentAG->getNodeList()[j]->inst != NULL){
+
+                liveInsts.push_back(currentAG->getNodeList()[j]->inst);
+            }
+//            if(currentAG->getNodeList()[i]->inst){
+//
+//                liveInsts.push_back(currentAG->getNodeList()[i]->inst);
+//            }
+
+        }
+
+    }
+    return liveInsts;
+}
+
+bool findAliases(std::vector<Instruction*> instList, AAResults* aliasAnalysis, Instruction* inst){
+
+
+    for(unsigned i = 0; i < instList.size(); i++){
+        bool isNoAlias = aliasAnalysis->isNoAlias(instList[i], inst);
+        bool isMustAlias = aliasAnalysis->isMustAlias(instList[i], inst);
+        if(isNoAlias){
+            //errs() << "inst: " << *inst << " is NoAlias with " << *instList[i] << ".\n";
+        }
+        if(isMustAlias){
+            if(instList[i] != inst){
+//                errs() << "inst: " << *inst << " is MustAlias with " << *instList[i] << ".\n";
+            }
+
+        }
+
+    }
+
+    return true;
+
+
+}
+
+
+
 
 
 void outputLiveInfo(std::vector<InstAGInfo*> &InstAGInfoList, int index){

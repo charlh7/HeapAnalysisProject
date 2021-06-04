@@ -30,6 +30,8 @@ class InstAGInfo {
 
 		std::vector<Instruction*> statementInsts;
 
+		std::vector<Instruction*> diffInsts;
+
 		std::vector<accessGraph*> *AGList;
 		std::vector<accessGraph*> usedAGs;
 		std::vector<accessGraph*> unusedAGs;
@@ -39,6 +41,8 @@ class InstAGInfo {
 		std::vector<accessGraph*> LTransfer;
 		accessGraph* Gy;
 		accessGraph* Gx;
+
+
 
 		//std::vector<std::vector<gEdge*>> ELKillPath;
 		std::vector<gEdge*> ELKillPath;

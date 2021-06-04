@@ -5,6 +5,7 @@
 #include "llvm/Pass.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/ADT/BitVector.h"
+#include "llvm/Analysis/AliasAnalysis.h"
 
 
 #include "livenessOperations.h"
@@ -27,6 +28,17 @@ struct instStatement{
 
 
 
+void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::vector<Instruction*> rootList, std::vector<Instruction*> instList, AAResults* aliasAnalysis);
+
+bool findAliases(std::vector<Instruction*> instList, AAResults* aliasAnalysis, Instruction* inst);
+void determineFreeableInsts(std::vector<Instruction*> instList, AAResults* aliasAnalysis, InstAGInfo* AGInfo);
+
+bool findInst(std::vector<Instruction*> instList, Instruction* inst);
+std::vector<Instruction*> findInstDifference(std::vector<Instruction*> liveInInsts, std::vector<Instruction*> liveOutInsts);
+
+std::vector<Instruction*> getLiveInInstList(InstAGInfo* AGInfo);
+std::vector<Instruction*> getLiveOutInstList(InstAGInfo* AGInfo);
+
 
 void outputLiveInfo(std::vector<InstAGInfo*> &InstAGInfoList, int index);
 void outputType(InstAGInfo* instInfo);
@@ -41,7 +53,7 @@ bool nextInstInfoSearch(Instruction* inst, std::vector<InstAGInfo*> InstAGList, 
 unsigned getInstPosition(Instruction* inst, std::vector<Instruction*> instList, bool &found);
 Instruction* findNearestInst(Instruction* inst, std::vector<Instruction*> instList);
 
-void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::vector<Instruction*> rootList, std::vector<Instruction*> instList);
+//void doAGLivenessAnalysis(Function &F, std::vector<accessGraph*> AGList,  std::vector<Instruction*> rootList, std::vector<Instruction*> instList, AAResults aliasAnalysis);
 
 //void updateAGs(std::vector<InstAGInfo*> &InstAGInfoList, std::vector<Instruction*> rootList, std::vector<accessGraph*> AGList);
 
